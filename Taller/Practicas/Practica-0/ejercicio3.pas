@@ -101,14 +101,26 @@ begin
   end;
 end;
 
+procedure procesarVentas(l: lista; codigoProducto: integer; var contador: integer);
+begin
+  while(l <> Nil) do begin
+    if(l^.dato.detalles^.dato.codigo = codigoProducto) then
+      contador := contador + 1;
+    l := l^.sig;
+  end; 
+end;
 var
   t: tabla;
   l: listaTickets;
+  codigoProducto, contador : integer;
 begin
   randomize;
   cargarTabla(t); //SE DISPONE
   l := Nil;
   cargarVentas(t,l);
+  contador := 0;
+  ReadLn(codigoProducto);
+  procesarVentas(l,codigoProducto,contador);
 end.
 {3.- Implementar un programa que procese las ventas de un supermercado. El supermercado
 dispone de una tabla con los precios y stocks de los 1000 productos que tiene a la venta.
