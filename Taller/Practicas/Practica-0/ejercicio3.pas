@@ -5,7 +5,7 @@ type
     precio : real;
     stock : integer;
   end;
-  vector = array[rangoProductos] of mercaderia;
+  tabla = array[rangoProductos] of mercaderia;
 
   detalle = record
     codigo : integer;
@@ -26,7 +26,7 @@ type
   end;
   listaTickets = ^nodoTickets;
   nodoTickets = record
-    elem : ticket;
+    dato : ticket;
     sig : listaTickets;
   end;
 
@@ -101,10 +101,10 @@ begin
   end;
 end;
 
-procedure procesarVentas(l: lista; codigoProducto: integer; var contador: integer);
+procedure procesarVentas(l: listaTickets; codigoProducto: integer; var contador: integer);
 begin
   while(l <> Nil) do begin
-    if(l^.dato.detalles^.dato.codigo = codigoProducto) then
+    if(l^.dato.detalles.codigo = codigoProducto) then
       contador := contador + 1;
     l := l^.sig;
   end; 
