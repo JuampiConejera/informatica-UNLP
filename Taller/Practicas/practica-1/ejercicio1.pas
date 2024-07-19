@@ -1,27 +1,107 @@
 program ejercicio1;
 type
-  vectorVentas = array[1..50] of venta;
   rangoDias = 0..31;
   venta = record
     dia : rangoDias;
     codigoVenta : 1..15;
     cantidadVendida : 1..99;
   end;
+  vectorVentas = array[1..50] of venta;
 
-procedure leerVenta(v: venta);
+procedure leerVenta(var v: venta);
 begin
-  v.dia := Random(v.dia);
+  Write('Dia: ');ReadLn(v.dia);
   v.codigoVenta := Random(99);
   ReadLn(v.cantidadVendida);
 end;
 
-procedure cargarVector(var vv: vectorVentas);
+procedure leerVector(vv: vectorVentas;dimL: Integer); //B
 var
-  i : integer;
+  i : Integer;
 begin
-  i := 1;
-  leerVenta(vv[i])
+  for i := 1 to dimL do begin
+    WriteLn(vv[i].dia);
+    WriteLn(vv[i].codigoVenta);
+    WriteLn(vv[i].cantidadVendida);
+    WriteLn;
+  end;
 end;
+
+procedure cargarVector(var vv: vectorVentas; var dimL: Integer); //A
+begin
+  dimL := dimL + 1;
+  leerVenta(vv[dimL]);
+  while((vv[dimL].dia <> 0) and (dimL < 50)) do begin
+    dimL := dimL + 1;
+    leerVenta(vv[dimL]);
+  end;
+end;
+
+procedure seleccionVector(var vv: vectorVentas;dimL: Integer);
+var
+  i, j, p : integer;
+  aux : venta;
+begin
+  for i := 1 to dimL-1 do begin
+    p := i;
+    for j := i+1 to dimL do
+      if(vv[j].codigoVenta < vv[p].codigoVenta) then
+        p := j;
+    aux := vv[p];
+    vv[p] := vv[i];
+    vv[i] := aux;
+  end;
+end;
+
+procedure eliminar(var vv:vectorVentas; var dimL: integer;codigo1, codigo2 : integer);
+var
+  i,eliminar,pos : integer;
+begin
+  eliminar := 0;
+  pos := 1;
+  while(pos < dimL) and (vv[pos].codigoVenta < codigo1) do
+    pos := pos + 1;
+  while(pos < dimL) and (vv[pos].codigoVenta <= codigo2) do begin
+    pos := pos+1;
+    eliminar := eliminar +1;
+  end;
+  for i := dimL downto pos do begin
+    vv[i-eliminar] := vv[i];
+    dimL := dimL - 1;
+  end;
+end;
+
+procedure cargarVectorPares(vv:vectorVentas;dimL:integer; var dimLPares : integer; var vp : vectorVentas);
+var
+  i : Integer;
+begin
+  for i := 1 to dimL do begin
+    if (vv[i].codigoVenta mod 2 = 0) then begin
+      dimLPares := dimLPares + 1;
+      vp[dimLPares] := vv[i];
+    end;
+  end;
+end;
+var
+  dimL, dimLPares : integer;
+  vv,vp : vectorVentas;
+  codigo1, codigo2 : integer;
+begin
+  Randomize;
+  dimL := 0;
+  cargarVector(vv,dimL); //A
+  leerVector(vv,dimL); //B
+  seleccionVector(vv,dimL); //C
+  leerVector(vv,dimL); //D
+  Write('Codigo1: ');ReadLn(codigo1);
+  Write('Codigo2: ');ReadLn(codigo2);
+  eliminar(vv,dimL,codigo1,codigo2); //E
+  leerVector(vv,dimL);//F
+  dimLPares := 0;
+  cargarVectorPares(vv,dimL,dimLPares,vp); //G
+  leerVector(vp,dimLPares);
+
+end.
 {1.- Se desea procesar la información de las ventas de productos de un comercio (como máximo
 50).
 Implementar un programa que invoque los siguientes módulos:
