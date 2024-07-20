@@ -67,18 +67,16 @@ begin
     while(v[i] <> Nil) do begin
       WriteLn(v[i]^.dato.codigo);
       WriteLn(v[i]^.dato.rubro);
-      WriteLn(v[i]^.dato.precio);
+      WriteLn(v[i]^.dato.precio:2:2);
+      v[i] := v[i]^.sig;
     end;
   end;
 end;
 
 procedure generarVector(l: lista; var vr: vectorRubro;var dimL: integer);
-var
-  i : integer;
 begin
-  i := 1;
-  while((l <> Nil) and (i <= 30)) do begin
-    vr[i] := l^.dato;
+  while((l <> Nil) and (dimL <= 30)) do begin
+    vr[dimL] := l^.dato;
     dimL := dimL + 1;
     l := l^.sig;
   end;
@@ -86,17 +84,17 @@ end;
 
 procedure insercion(var v: vectorRubro;dimL: integer);
 var
-  i,j : integer;
-  actual : producto;
+  i,j,pos : integer;
+  item : producto;
 begin
-  for i := 2 to dimL - 1 do begin
-    actual := v[i];
-    j := i-1;
-    while((j > 0) and (v[j].precio > actual.precio)) do begin
-      v[j+1] := actual;
-      j := j - 1;
-    end;
-    v[j+1] := actual;
+  for i := 1 to dimL - 1 do begin
+    pos := i;
+    for j := i+1 to dimL do
+      if(v[j].precio < v[pos].precio) then
+        pos := j;
+      item := v[pos];
+      v[pos] := v[i];
+      v[i] := item;
   end;
 end;
 
@@ -107,7 +105,7 @@ begin
   for i := 1 to dimL do begin
     WriteLn(v[i].codigo);
     WriteLn(v[i].rubro);
-    WriteLn(v[i].precio);
+    WriteLn(v[i].precio:2:2);
   end;
 end;
 
@@ -116,10 +114,11 @@ var
   total : real;
   i : integer;
 begin
+  total := 0;
   for i := 1 to dimL do begin
     total := total + v[i].precio;
   end;
-  WriteLn(total/dimL);
+  WriteLn(total/dimL:2:2);
 end;
 
 var
@@ -133,7 +132,9 @@ begin
   dimL := 0;
   generarVector(vp[3],vr,dimL); //C
   insercion(vr,dimL); //D
+  WriteLn();
   imprimirVectorRubro(vr,dimL); //E
+  WriteLn('hola');
   calcularPromedio(vr,dimL); //F
 end.
 {4.- Una librería requiere el procesamiento de la información de sus productos. De cada
