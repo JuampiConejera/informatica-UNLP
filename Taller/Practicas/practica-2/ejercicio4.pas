@@ -32,6 +32,14 @@ begin
   end;
 end;
 
+function sumaVector(v: vector;dimL,pos: integer) : integer;
+begin
+  if(pos <= dimL) then
+    sumaVector := sumaVector(v,dimL,pos+1) + v[pos]
+  else
+    sumaVector := v[pos];
+end;
+
 var
   v: vector;
   dimL,min,max,pos : integer;
@@ -39,13 +47,14 @@ begin
   randomize;
   dimL := 0;
   cargarVector(v,dimL);
-  pos := 0;
+  pos := 1;
   max:= -1;
   maximo(v,dimL,max,pos);
   min := 100;
   minimo(v,dimL,min,pos);
   WriteLn(max);
   WriteLn(min);
+  WriteLn(sumaVector(v,dimL,pos));
 end.
 {4.- Escribir un programa con:
 a. Un módulo recursivo que retorne un vector de 20 números enteros “random” mayores a 0 y
