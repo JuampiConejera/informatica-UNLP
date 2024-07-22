@@ -68,6 +68,7 @@ var
   l: lista;
   max,min: integer;
 begin
+  Randomize;
   l := Nil;
   cargarLista(l);
   WriteLn;
