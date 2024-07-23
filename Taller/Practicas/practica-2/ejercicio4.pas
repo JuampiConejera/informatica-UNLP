@@ -54,6 +54,7 @@ begin
   minimo(v,dimL,min,pos);
   WriteLn(max);
   WriteLn(min);
+  WriteLn;
   WriteLn(sumaVector(v,dimL,pos));
 end.
 {4.- Escribir un programa con:
