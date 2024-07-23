@@ -12,7 +12,6 @@ type
   end;
   jugador = record
     barcos: posicionBarco;
-    ronda: rangoRondas;
     puntaje: integer;
   end;
 
@@ -29,7 +28,6 @@ begin
     WriteLn;
     WriteLn;
   end;
-  j.ronda := 0;
   j.puntaje := 0;
   end;
 
