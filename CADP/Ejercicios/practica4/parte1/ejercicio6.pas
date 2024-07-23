@@ -24,8 +24,8 @@ begin
     if(v[i] > max) then begin
       max := v[i];
       posMax := i;
-    end
-    else if(v[i] < min) then begin
+    end;
+    if(v[i] < min) then begin
       min := v[i];
       posMin := i;
     end;
