@@ -1,4 +1,4 @@
-program final2;
+program finalJulio2024;
 type
   rangoFilas = 1..20;
   rangoColumnas = 1..15;
