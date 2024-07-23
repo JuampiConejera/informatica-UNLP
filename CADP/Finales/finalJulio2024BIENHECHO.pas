@@ -2,8 +2,8 @@ program finalJulio2024BIENHECHO;
 type
   rangoFilas = 1..20;
   rangoColumnas = 1..15;
-  vectorFilas = array[rangoFilas] of Boolean;
-  tabla = array[rangoColumnas] of vectorFilas;
+  vectorColumnas = array[rangoColumnas] of Boolean;
+  tabla = array[rangoFilas] of vectorColumnas;
   jugador = record
     tablero: tabla;
     puntaje: integer;
@@ -16,7 +16,7 @@ begin
   for i:= 1 to 7 do begin
     numeroFila := random(20) +1;
     numeroColumna := random(15) +1;
-    j.tablero[numeroColumna][numeroFila] := true;
+    j.tablero[numeroFila][numeroColumna] := true;
   end;
   j.puntaje := 0;
 end;
