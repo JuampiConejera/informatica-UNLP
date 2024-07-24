@@ -9,6 +9,7 @@ type
     clicks: integer;
     comentarios: integer;
   end;
+  vector = array[1..dimF] of foto;
 
 procedure cargarVector(var v: vector);
 var
@@ -50,6 +51,7 @@ end;
 var
   v: vector;
 begin
+  randomize;
   cargarVector(v);
   procesarVector(v);
 end.
