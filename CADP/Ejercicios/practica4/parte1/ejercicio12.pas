@@ -19,8 +19,8 @@ begin
   for i := 1 to dimF do begin
     v[i].nombre := Chr(random(26)+65);
     v[i].tipo := random(4)+1;
-    v[i].masa := random(500);
-    v[i].distancia := random(5000);
+    v[i].masa := random(32000);
+    v[i].distancia := random(10000);
   end;
 end;
 
@@ -40,7 +40,7 @@ var
 begin
   inicializarVector(vg);
   masaTotal := 0; cantRegulares := 0;
-  max1 := -1; max2 := -1; min1 := 33000; min2 := 33000;
+  max1 := -1; max2 := -1; min1 := 32000; min2 := 32000;
   nombreMax1 := ''; nombreMax2 := ''; nombreMin1 := ''; nombreMin2 := '';
   for i := 1 to dimF do begin
     vg[v[i].tipo] := vg[v[i].tipo] + 1;
@@ -60,11 +60,32 @@ begin
     end;
     if(v[i].masa < min1) then begin
       min2 := min1;
-      nombreMin1 := v[i].nombre;
-      min1 :=
+      nombreMin2 := nombreMin1;
+      min1 := v[i].masa;
+      nombreMin1 := v[i].nombre
+      end
+    else if(v[i].masa < min2) then begin
+      min2 := v[i].masa;
+      nombreMin2 := v[i].nombre;
     end;
   end;
+  for i := 1 to 4 do
+    WriteLn(vg[i]);
+  WriteLn(masaTotal,'   ',masaTotal/dimF:0:2);
+  WriteLn(cantRegulares);
+  WriteLn(min2,nombreMin2);
+  WriteLn(min1,nombreMin1);
+  WriteLn(max2,nombreMax2);
+  WriteLn(max1,nombreMax1);
 end;
+
+var
+  v: vector;
+begin
+  randomize;
+  cargarVector(v);
+  procesarVector(v);
+end.
 {12. En astrofísica, una galaxia se identifica por su nombre, su tipo (1. elíptica; 2. espiral; 3. lenticular; 4.
 irregular), su masa (medida en kg) y la distancia en pársecs (pc) medida desde la Tierra. La Unión
 Astronómica Internacional cuenta con datos correspondientes a las 53 galaxias que componen el
