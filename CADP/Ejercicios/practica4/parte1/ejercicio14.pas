@@ -89,6 +89,7 @@ var
 begin
   randomize;
   cargarVectorPrecios(vp);
+  dimL := 1;
   cargarVector(v,dimL);
   inicializarVectorTotal(vt);
   procesarVector(v,dimL,vp,vt);
