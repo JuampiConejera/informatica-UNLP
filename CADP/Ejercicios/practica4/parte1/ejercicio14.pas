@@ -35,7 +35,7 @@ begin
   codigoProyecto := random(1001);
   while(codigoProyecto <> 0) and (dimL <= dimF)do begin
     v[dimL].pais := Chr(random(26)+65);
-    v[dimL].codigoProyecto := random(1000)+1;
+    v[dimL].codigoProyecto := codigoProyecto;
     v[dimL].nombreProyecto := Chr(random(26)+65);
     v[dimL].rolProyecto := random(5)+1;
     v[dimL].cantidadHoras := random(3000); 
