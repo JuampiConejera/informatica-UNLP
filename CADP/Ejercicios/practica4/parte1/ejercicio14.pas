@@ -27,6 +27,7 @@ begin
   vp[4] := 44.28;
   vp[5] := 39.87;
 end;
+
 procedure cargarVector(var v: vector;var dimL: integer);
 var
   codigoProyecto: integer;
@@ -39,15 +40,26 @@ begin
     v[dimL].rolProyecto := random(5)+1;
     v[dimL].cantidadHoras := random(3000); 
     dimL := dimL + 1;
+    codigoProyecto := random(1001);
   end;
 end;
 
-procedure procesarVector(v: vector;dimL: integer;vp: vectorPrecios;vt: vectorTotal);
+procedure inicializarVectorTotal(var vt: vectorTotal);
 var
-  cantHorasABBDD,codigoMin,cantArqui,i: integer;
+  i: integer;
+begin
+  for i := 1 to dimF do begin
+    vt[i].monto := 0;
+    vt[i].cantArqui := 0;
+  end;
+end;
+
+procedure procesarVector(v: vector;dimL: integer;vp: vectorPrecios;var vt: vectorTotal);
+var
+  cantHorasABBDD,codigoMin,i: integer;
   montoTotalArgentina,min: real;
 begin
-  montoTotalArgentina := 0; cantHorasABBDD := 0; min := 0; codigoMin := 0; cantArqui := 0;
+  montoTotalArgentina := 0; cantHorasABBDD := 0; min := 0; codigoMin := 0;
   for i := 1 to dimL do begin
     if(v[i].pais = 'a') then
       montoTotalArgentina := montoTotalArgentina + (vp[v[i].rolProyecto] * v[i].cantidadHoras);
@@ -63,9 +75,26 @@ begin
       codigoMin := i;
     end;
   end;
+  for i := 1 to dimF do
+    WriteLn('En el proyecto ',i,' hay ',vt[i].cantArqui);
+  WriteLn('Monto total invertido en desarrolladores argentinos: ',montoTotalArgentina:2:0);
+  WriteLn('Cantidad total de horas trabajadas por ABBDD: ',cantHorasABBDD);
+  WriteLn('El codigo del proyecto con menor monto: ',codigoMin, ' con $',min:2:0);
 end;
+var
+  v: vector;
+  dimL: Integer;
+  vp: vectorPrecios;
+  vt: vectorTotal;
 begin
-end.
+  randomize;
+  cargarVectorPrecios(vp);
+  cargarVector(v,dimL);
+  inicializarVectorTotal(vt);
+  procesarVector(v,dimL,vp,vt);
+end. 
+//ACLARACION= a veces tira error 216 pq con Random no se cargan todos los montos y en linea 73 se pregunta sin inicializar
+
 {14. El repositorio de código fuente más grande en la actualidad, GitHub, desea estimar el monto invertido
 en los proyectos que aloja. Para ello, dispone de una tabla con información de los desarrolladores que
 participan en un proyecto de software, junto al valor promedio que se paga por hora de trabajo:
