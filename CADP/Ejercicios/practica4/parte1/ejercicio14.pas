@@ -59,7 +59,7 @@ var
   cantHorasABBDD,codigoMin,i: integer;
   montoTotalArgentina,min: real;
 begin
-  montoTotalArgentina := 0; cantHorasABBDD := 0; min := 0; codigoMin := 0;
+  montoTotalArgentina := 0; cantHorasABBDD := 0; min := 32600; codigoMin := 0;
   for i := 1 to dimL do begin
     if(v[i].pais = 'a') then
       montoTotalArgentina := montoTotalArgentina + (vp[v[i].rolProyecto] * v[i].cantidadHoras);

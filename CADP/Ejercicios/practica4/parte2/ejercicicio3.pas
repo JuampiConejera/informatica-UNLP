@@ -9,6 +9,16 @@ type
     distanciaRecorrida: integer;
   end;
   vector = array[1..dimF] of viaje;
+  vectorDias = array[rangoDias] of integer;
+
+procedure inicializarVector(var vd: vectorDias);
+var
+  i : integer;
+begin
+  for i := 1 to 31 do
+    vd[i] := 0;
+end;
+
 procedure cargarVector(var v: vector;var dimL: integer);
 var
   distancia: integer;
@@ -19,8 +29,14 @@ begin
     v[dimL].dineroTransportado := random(1000);
     v[dimL].distanciaRecorrida := distancia;
     distancia := random(500);
+    dimL := dimL + 1;
   end;
 end;
+
+procedure procesarVector(v: vector;dimL: integer);
+var
+  montoTotal,promedio,min: real;
+  diaMin,distanciaMin: integer;
 {3. Una empresa de transporte de caudales desea optimizar el servicio que brinda a sus clientes. Para ello,
 cuenta con información sobre todos los viajes realizados durante el mes de marzo. De cada viaje se cuenta
 con la siguiente información: día del mes (de 1 a 31), monto de dinero transportado y distancia recorrida por
