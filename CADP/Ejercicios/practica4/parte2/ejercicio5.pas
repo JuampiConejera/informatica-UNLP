@@ -1,12 +1,23 @@
 program ejercicio5;
+const
+  dimF = 500;
 type
+  rangoMonotributo = A..F;
   rangoDias = 1..31;
   rangoMes = 1..12;
   fecha = record
     dia: rangoDias;
     mes: rangoMes;
     anio: integer;
+  end;
   cliente = record
+    fecha: fecha;
+    monotributo: rangoMonotributo;
+    codigoCiudad: 1..2400;
+    montoMensual: real;
+  end;
+  vector = array[1..dimF] of cliente;
+procedure cargarVector(var v: vector);begin end; //SE DISPONE//
 
 {5. La empresa Amazon Web Services (AWS) dispone de la información de sus 500 clientes monotributistas más
 grandes del país. De cada cliente conoce la fecha de firma del contrato con AWS, la categoría del
