@@ -2,29 +2,70 @@ program ejercicio14;
 const
   dimF = 1000;
 type
+  vectorPrecios = array[1..5] of real;
+  rangoPrecio = 1..5;
   rangoCodigo = 1..dimF;
-  rangoRol = 1.5;
   participante = record
     pais: string;
     codigoProyecto: rangoCodigo;
     nombreProyecto: string;
-    rolProyecto: rangoRol;
+    rolProyecto: rangoPrecio;
     cantidadHoras: integer;
   end;
   vector = array[1..dimF] of participante;
+  contadorProyecto = record
+    monto: real;
+    cantArqui: integer;
+  end;
+  vectorTotal = array[1..dimF] of contadorProyecto;
+
+procedure cargarVectorPrecios(var vp: vectorPrecios);
+begin
+  vp[1] := 35.2;
+  vp[2] := 27.45;
+  vp[3] := 31.03;
+  vp[4] := 44.28;
+  vp[5] := 39.87;
+end;
 procedure cargarVector(var v: vector;var dimL: integer);
 var
   codigoProyecto: integer;
 begin
   codigoProyecto := random(1001);
   while(codigoProyecto <> 0) and (dimL <= dimF)do begin
-    v[i].pais := Chr(random(26)+65);
-    v[i].codigoProyecto := random(1000)+1;
-    v[i].nombreProyecto := Chr(random(26)+65);
-    v[i].rolProyecto := random(5)+1;
-    v[i].cantidadHoras := random(3000); 
+    v[dimL].pais := Chr(random(26)+65);
+    v[dimL].codigoProyecto := random(1000)+1;
+    v[dimL].nombreProyecto := Chr(random(26)+65);
+    v[dimL].rolProyecto := random(5)+1;
+    v[dimL].cantidadHoras := random(3000); 
+    dimL := dimL + 1;
   end;
 end;
+
+procedure procesarVector(v: vector;dimL: integer;vp: vectorPrecios;vt: vectorTotal);
+var
+  cantHorasABBDD,codigoMin,cantArqui,i: integer;
+  montoTotalArgentina,min: real;
+begin
+  montoTotalArgentina := 0; cantHorasABBDD := 0; min := 0; codigoMin := 0; cantArqui := 0;
+  for i := 1 to dimL do begin
+    if(v[i].pais = 'a') then
+      montoTotalArgentina := montoTotalArgentina + (vp[v[i].rolProyecto] * v[i].cantidadHoras);
+    if(v[i].rolProyecto = 3) then
+      cantHorasABBDD := cantHorasABBDD + v[i].cantidadHoras;
+    vt[v[i].codigoProyecto].monto := vt[v[i].codigoProyecto].monto + (v[i].cantidadHoras * vp[v[i].rolProyecto]);
+    if(v[i].rolProyecto = 4) then
+      vt[v[i].codigoProyecto].cantArqui := vt[v[i].codigoProyecto].cantArqui + 1;
+  end;
+  for i := 1 to dimF do begin
+    if(vt[i].monto < min) then begin
+      min := vt[i].monto;
+      codigoMin := i;
+    end;
+  end;
+end;
+begin
+end.
 {14. El repositorio de código fuente más grande en la actualidad, GitHub, desea estimar el monto invertido
 en los proyectos que aloja. Para ello, dispone de una tabla con información de los desarrolladores que
 participan en un proyecto de software, junto al valor promedio que se paga por hora de trabajo:
