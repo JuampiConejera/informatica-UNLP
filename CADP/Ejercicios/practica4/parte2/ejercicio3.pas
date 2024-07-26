@@ -26,17 +26,58 @@ begin
   distancia := random(500);
   while(distancia <> 0) and (dimL <= dimF) do begin
     v[dimL].dia := random(31)+1;
-    v[dimL].dineroTransportado := random(1000);
+    v[dimL].dineroTransportado := random(1000)+1;
     v[dimL].distanciaRecorrida := distancia;
-    distancia := random(500);
+    distancia := random(500)+1;
     dimL := dimL + 1;
   end;
 end;
 
 procedure procesarVector(v: vector;dimL: integer);
 var
-  montoTotal,promedio,min: real;
-  diaMin,distanciaMin: integer;
+  montoTotal,min: real;
+  diaMin,distanciaMin,i: integer;
+  vd: vectorDias;
+begin
+  inicializarVector(vd);
+  montoTotal := 0; min := 32000;diaMin := 0; distanciaMin := 0;
+  for i := 1 to dimL do begin
+    montoTotal := montoTotal + v[i].dineroTransportado;
+    if(v[i].dineroTransportado < min) then begin
+      min := v[i].dineroTransportado;
+      distanciaMin := v[i].distanciaRecorrida;
+      diaMin := v[i].dia;
+    end;
+    vd[v[i].dia] := vd[v[i].dia] + 1;
+  end;
+  WriteLn('Monto promedio: ',montoTotal/dimL:0:2);
+  WriteLn('El dia que se transportó menos dinero fue el dia: ',diaMin,' en ',distanciaMin,'km con $',min:2:2);
+  for i := 1 to 31 do
+    WriteLn('dia ',i,': ',vd[i]);
+end;
+
+procedure eliminar(var v: vector; var dimL: integer);
+var
+  i,j: integer;
+begin
+  for i := 1 to dimL do
+    if(v[i].distanciaRecorrida = 100) then begin
+      for j := i to dimL-1 do
+        v[i] := v[i+1];
+      dimL := dimL -1;  
+    end;
+end;
+
+var
+  v: vector;
+  dimL: integer;
+begin
+  randomize;
+  dimL := 1;
+  cargarVector(v,dimL);
+  procesarVector(v,dimL);
+  eliminar(v,dimL);
+end.
 {3. Una empresa de transporte de caudales desea optimizar el servicio que brinda a sus clientes. Para ello,
 cuenta con información sobre todos los viajes realizados durante el mes de marzo. De cada viaje se cuenta
 con la siguiente información: día del mes (de 1 a 31), monto de dinero transportado y distancia recorrida por
