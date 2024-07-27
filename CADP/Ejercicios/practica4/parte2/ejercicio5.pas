@@ -17,8 +17,22 @@ type
     montoMensual: real;
   end;
   vector = array[1..dimF] of cliente;
-procedure cargarVector(var v: vector);begin end; //SE DISPONE//
-
+procedure cargarVector(var v: vector);begin end;
+var
+  i,rando: integer;
+begin
+  ReadLn(rando);
+  for i := 1 to dimF do begin
+    v[i].fecha.dia := random(31)+1;
+    v[i].fecha.mes := random(12)+1;
+    v[i].fecha.anio := random(50)+1900;
+    v[i].monotributo := Chr(random(6)+65);
+    v[i].codigoCiudad := random(2400)+1;
+    if(i mod 10 = 0) then begin
+      Write('Monto Mensual: ');ReadLn(rando);
+    end;
+    v[i].montoMensual := rando;
+end;
 {5. La empresa Amazon Web Services (AWS) dispone de la información de sus 500 clientes monotributistas más
 grandes del país. De cada cliente conoce la fecha de firma del contrato con AWS, la categoría del
 monotributo (entre la A y la F), el código de la ciudad donde se encuentran las oficinales (entre 1 y 2400) y el
