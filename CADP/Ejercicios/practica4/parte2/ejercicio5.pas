@@ -2,7 +2,7 @@ program ejercicio5;
 const
   dimF = 500;
 type
-  rangoMonotributo = A..F;
+  rangoMonotributo = 'A'..'F';
   rangoDias = 1..31;
   rangoMes = 1..12;
   fecha = record
@@ -17,7 +17,8 @@ type
     montoMensual: real;
   end;
   vector = array[1..dimF] of cliente;
-procedure cargarVector(var v: vector);begin end;
+  vectorMonotributo = array['A'..'F'] of integer;
+procedure cargarVector(var v: vector);
 var
   i,rando: integer;
 begin
@@ -32,7 +33,41 @@ begin
       Write('Monto Mensual: ');ReadLn(rando);
     end;
     v[i].montoMensual := rando;
+  end;
 end;
+
+procedure inicializarVector(var v: vectorMonotributo);
+var
+  i: integer;
+begin
+  for i := 'A' TO 'F' do v[i] := 0;
+end;
+
+procedure procesarVector(v: vector);
+var
+  cantClientes,i: integer;
+  montoTotal, promedio: real;
+  vm: vectorMonotributo;
+begin
+  inicializarVector(vm);
+  cantClientes := 0;
+  montoTotal := 0;
+  for i := 1 to dimF do begin
+    vm[v[i].rangoMonotributo] := vm[v[i].rangoMonotributo] + 1;
+    montoTotal := montoTotal + v[i].montoMensual;
+  end;
+  promedio := montoTotal / dimF;
+  for i := 1 to dimF do begin
+    if(v[i].montoMensual > promedio) then
+      cantClientes := cantClientes + 1;
+  end;
+end;
+var
+  v: vector;
+begin
+  cargarVector(v);
+  procesarVector(v);
+end.
 {5. La empresa Amazon Web Services (AWS) dispone de la información de sus 500 clientes monotributistas más
 grandes del país. De cada cliente conoce la fecha de firma del contrato con AWS, la categoría del
 monotributo (entre la A y la F), el código de la ciudad donde se encuentran las oficinales (entre 1 y 2400) y el
