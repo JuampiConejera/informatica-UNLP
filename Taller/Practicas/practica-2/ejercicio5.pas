@@ -15,6 +15,8 @@ begin
       busquedaDicotomica(v,ini,medio+1,dato,pos);
   end;
 end;
+begin
+end.
 {5.- Implementar un módulo que realice una búsqueda dicotómica en un vector, utilizando el
 siguiente encabezado:
 Procedure busquedaDicotomica (v: vector; ini,fin: indice; dato:integer; var pos: indice);
