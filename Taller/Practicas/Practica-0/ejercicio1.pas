@@ -1,4 +1,4 @@
-program ejercicio1;
+program ejercicio1;{farmeo dias en git}
 type
   rangoNota = 0..10;
   rangoMaterias = 1..36;
