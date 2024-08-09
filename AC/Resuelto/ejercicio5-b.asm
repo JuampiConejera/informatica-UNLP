@@ -3,13 +3,13 @@ B equ 4
 C equ 7
 
 org 1000h
-D dw ?
+D db ?
 
 org 3000h
-calculo: mov ax, A
-         add ax, B
-         sub ax, c
-         mov D, ax
+calculo: mov al, A
+         add al, B
+         sub al, c
+         mov D, al
          ret
 org 2000h
 mov ax, 0
