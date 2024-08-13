@@ -1,6 +1,6 @@
       ORG 1000H
-      NUM1 DW 3
-      NUM2 DW 0
+      NUM1 DW 16
+      NUM2 DW 16
       RES DW ?
       ORG 2000H
       ;INICIALIZO AX,BX
