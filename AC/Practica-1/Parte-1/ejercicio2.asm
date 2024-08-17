@@ -2,7 +2,7 @@
         C DB "@"
         RES DB ?
         ORG 2000H
-        CMP C, 90
+        CMP C, 91
         JNS ELSE
         CMP C, 65
         JNS THEN
