@@ -1,6 +1,6 @@
 program ejercicio4;
 type
-  lista = nodo;
+  lista = ^nodo;
   nodo = record
     dato: integer;
     sig: lista;
@@ -8,7 +8,7 @@ type
 
 procedure insertarOrdenado(var l: lista; n: integer);
 var
-  actual, interior, nuevo: lista;
+  actual, anterior, nuevo: lista;
 begin
   New(nuevo);
   nuevo^.dato := n;
@@ -45,8 +45,15 @@ begin
 end;
 
 function BuscarElementoOrdenado(l: lista; num: integer) : Boolean;
+var
+  aux: lista;
 begin
-  
+  BuscarElementoOrdenado := false;
+  aux := l;
+  while((aux <> Nil) and (aux^.dato < num)) do
+    aux := aux^.sig;
+  if(aux <> Nil) and (aux^.dato = num) then
+    BuscarElementoOrdenado := True;
 end;
 
 var
@@ -56,6 +63,7 @@ begin
   Randomize;
   l := Nil;
   cargarListaOrdenada(l);
+  WriteLn('pasa');
   imprimirLista(l);
   Write('Numero a buscar: ', numBuscar);
   BuscarElementoOrdenado(l,numBuscar);
