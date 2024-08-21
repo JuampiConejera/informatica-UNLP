@@ -7,9 +7,9 @@ var
 begin
   pos := 1;
   num := random(max - min + 1) + min;
-  while((num <> 0) and (i <= 50)) do begin
-    v[i] := num;
-    i += 1;
+  while((num <> 0) and (pos <= 49)) do begin
+    v[pos] := num;
+    pos += 1;
     num := Random(max - min + 1) + min;
   end;
 end;
@@ -26,7 +26,6 @@ var
   min, max, pos: integer;
   v: vector;
 begin
-  pos := 0;
   Write('Ingrese el mínimo del rango: ');ReadLn(min);
   Write('Ingrese el máximo del rango: ');ReadLn(max);
   CargarVector(min,max,v,pos);
