@@ -19,14 +19,14 @@ procedure leerPelicula(var p: pelicula);
 begin
   write('Codigo pelicula: ');{eadLn(p.codigoPelicula);}p.codigoPelicula := Random(100)-1;
   write('Codigo genero: ');{ReadLn(p.codigoGenero);}p.codigoGenero := random(8)+1;
-  WriteLn('Puntaje promedio: ');{ReadLn(p.puntajePromedio);}p.puntajePromedio := random(10);
+  WriteLn('Puntaje promedio: ');{ReadLn(p.puntajePromedio);}p.puntajePromedio := random(3000);
 end;
 
 procedure inicializarVectorListas(v: vector);
 var
   i: integer;
 begin
-  for i := 1 to 8 do
+  for i := 1 to dimF do
     v[i] := Nil;
 end;
 
@@ -64,14 +64,15 @@ var
   maximo: real;
 begin
   for i := 1 to dimF do begin
-    maximo := -1;
+    vm[i].puntajePromedio := -1;
     while(vp[i] <> Nil) do begin
-      if(maximo < vp[i]^.dato.puntajePromedio) then begin
-        maximo := vp[i]^.dato.puntajePromedio;
+      if(vm[i].puntajePromedio < vp[i]^.dato.puntajePromedio) then begin
         vm[i] := vp[i]^.dato;
       end;
       vp[i] := vp[i]^.sig;
     end;
+    writeln;
+    WriteLn(maximo:0:2, ' ',vm[i].codigoPelicula,' ',vm[i].codigoGenero);
   end;
 end;
 
@@ -82,7 +83,7 @@ var
 begin
   for i := 1 to dimF-1 do begin
     pos := i;
-    for j := i+1 to 8 do
+    for j := i+1 to dimF do
       if(v[j].puntajePromedio > v[pos].puntajePromedio) then
         pos := j;
       item := v[pos];
