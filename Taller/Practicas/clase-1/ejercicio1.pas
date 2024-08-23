@@ -135,7 +135,6 @@ begin
     end;
     AgregarAtras(l,ult,e);
   end;
-end;
 
 procedure imprimirLista(l: lista);
 begin
@@ -151,7 +150,7 @@ begin
   AlmacenarInformacion(v,dimL);
   WriteLn;
   if(dimL = 0) then
-    writeln('--- Vector sin elementos ---');
+    writeln('--- Vector sin elementos ---')
   else begin
     WriteLn;
     imprimirVector(v,dimL);
