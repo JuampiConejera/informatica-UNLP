@@ -16,7 +16,7 @@ begin
   write('Valor expensa: ');ReadLn(o.valorExpensa);
 end;
 
-procedure cargarVector(var v:vector; var dimL: integer;);
+procedure cargarVector(var v:vector; var dimL: integer);
 var
   o: oficina;
 begin
@@ -31,12 +31,12 @@ end;
 procedure seleccion(var v: vector;dimL: integer);
 var
   i, j, pos: integer;
-  item: integer;
+  item: oficina;
 begin
   for i := 1 to (dimL - 1) do begin
     pos := i;
     for j := i+1 to dimL do
-      if(v[i] < v[pos]) then
+      if(v[i].codigoIdentificacion < v[pos].codigoIdentificacion) then
         pos := j;
       item := v[pos];
       v[pos] := v[i];
@@ -46,20 +46,21 @@ end;
 
 procedure insercion(var v: vector; dimL: integer);
 var
-  i, j, actual: integer;
+  i, j: integer;
+  actual: oficina;
 begin
   for i := 2 to dimL do begin
     actual := v[i];
     j := i-1;
-    while((j > 0) and (v[j] > actual))do begin
+    while((j > 0) and (v[j].codigoIdentificacion > actual.codigoIdentificacion))do begin
       v[j+1] := v[j];
-      v := j - 1;
+      j := j - 1;
     end;
     v[j+1] := actual;
   end;
 end;
 var
-  o: oficina;
+  v: vector;
   dimL: integer;
 begin
   dimL := 0;
