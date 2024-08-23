@@ -72,12 +72,12 @@ begin
   end;
 end;
 
-procedure cargarVectorRubro(var vrt: vectorRubroTres;var dimL: integer; v: vector);
+procedure cargarVectorRubro(var vrt: vectorRubroTres;var dimL: integer; l: lista);
 begin
-  while((v[3] <> Nil) and (dimL < 30)) do begin
+  while((l <> Nil) and (dimL < 30)) do begin
     dimL += 1;
-    vrt[dimL] := v[3]^.dato;
-    v[3] := v[3]^.sig;
+    vrt[dimL] := l^.dato;
+    l := l^.sig;
   end;
 end;
 
@@ -129,7 +129,7 @@ begin
   dimL := 0;
   cargarVector(v);
   imprimirVector(v);
-  cargarVectorRubro(vrt,dimL,v);
+  cargarVectorRubro(vrt,dimL,v[3]);
   insercion(vrt,dimL);
   WriteLn;
   WriteLn;
