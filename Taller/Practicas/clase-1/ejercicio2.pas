@@ -52,11 +52,22 @@ begin
   for i := 2 to dimL do begin
     actual := v[i];
     j := i-1;
-    while((j > 0) and (v[j].codigoIdentificacion > actual.codigoIdentificacion))do begin
+    while((j > 0) and (v[j].codigoIdentificacion < actual.codigoIdentificacion))do begin
       v[j+1] := v[j];
       j := j - 1;
     end;
     v[j+1] := actual;
+  end;
+end;
+
+procedure imprimirVector(var v: vector; dimL: integer);
+var
+  i: Integer;
+begin
+  for i:= 1 to dimL do begin
+    WriteLn(v[i].codigoIdentificacion);
+    WriteLn(v[i].dniPropietario);
+    WriteLn(v[i].valorExpensa);
   end;
 end;
 var
@@ -66,7 +77,8 @@ begin
   dimL := 0;
   cargarVector(v,dimL);
   seleccion(v,dimL);
-  insercion(v,dimL);
+  //insercion(v,dimL);
+  imprimirVector(v,dimL);
 end.
 {2.- El administrador de un edificio de oficinas cuenta, en papel, con la información del pago de 
 las expensas de dichas oficinas. 
