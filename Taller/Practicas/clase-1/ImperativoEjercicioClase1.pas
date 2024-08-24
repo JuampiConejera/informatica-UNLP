@@ -19,7 +19,7 @@ type dias = 0..31;
     rango2 = 1..99;
     rango3 = 0..dimF;
     venta = record
-                dia: dias;
+        dia: dias;
 				codigoP: rango1;
 				cantidad: rango2;
 		end;
