@@ -11,9 +11,9 @@ type
 
 procedure leerVector(var o: oficina);
 begin
-  write('Codigo de identificacion: ');ReadLn(o.codigoIdentificacion);
-  write('DNI propietario: ');ReadLn(o.dniPropietario);
-  write('Valor expensa: ');ReadLn(o.valorExpensa);
+  write('Codigo de identificacion: ');{ReadLn(o.codigoIdentificacion);}o.codigoIdentificacion := random(50)-1;
+  write('DNI propietario: ');{ReadLn(o.dniPropietario);} o.dniPropietario := random(500);
+  write('Valor expensa: ');{ReadLn(o.valorExpensa);} o.valorExpensa := random(60);
 end;
 
 procedure cargarVector(var v:vector; var dimL: integer);
@@ -60,6 +60,7 @@ begin
   end;
 end;
 
+<<<<<<< HEAD
 procedure imprimirVector(var v: vector; dimL: integer);
 var
   i: Integer;
@@ -68,6 +69,17 @@ begin
     WriteLn(v[i].codigoIdentificacion);
     WriteLn(v[i].dniPropietario);
     WriteLn(v[i].valorExpensa);
+=======
+procedure imprimirVector(v: vector; dimL: integer);
+var
+  i: integer;
+begin
+  for i := 1 to dimL do begin
+    WriteLn(v[i].codigoIdentificacion);
+    WriteLn(v[i].dniPropietario);
+    WriteLn(v[i].valorExpensa);
+    WriteLn;
+>>>>>>> 395a67d382ccf9bcf5a0b8c5f7e3f4d11442fadc
   end;
 end;
 var
@@ -77,7 +89,14 @@ begin
   dimL := 0;
   cargarVector(v,dimL);
   seleccion(v,dimL);
+<<<<<<< HEAD
   //insercion(v,dimL);
+=======
+  insercion(v,dimL);
+  WriteLn;
+  WriteLn;
+  WriteLn;
+>>>>>>> 395a67d382ccf9bcf5a0b8c5f7e3f4d11442fadc
   imprimirVector(v,dimL);
 end.
 {2.- El administrador de un edificio de oficinas cuenta, en papel, con la información del pago de 
