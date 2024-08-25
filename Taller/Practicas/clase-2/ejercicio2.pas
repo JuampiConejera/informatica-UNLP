@@ -16,28 +16,29 @@ begin
   l := aux;
 end;
 
-procedure cargarLista(l: lista);
+procedure cargarLista(var l: lista);
 var
   num: integer;
 begin
   num := random(101)+100;
-  agregarAtras(l,num);
-  if(num <> 100) then
-    cargarLista(l);
+  agregarAdelante(l,num);
+  if(num <> 100) then begin
+    cargarLista(l^.sig);
+  end;
 end;
 
 procedure imprimirListaOrden(l: lista);
 begin
   if(l <> Nil) then begin
     WriteLn(l^.dato);
-    imprimirLista(l^.sig);
+    imprimirListaOrden(l^.sig);
   end;
 end;
 
 procedure imprimirListaInversa(l: lista);
 begin
   if(l <> Nil) then begin
-    imprimirListaInversa(l^.isg);
+    imprimirListaInversa(l^.sig);
     WriteLn(l^.dato);
   end;
 end;
@@ -47,9 +48,36 @@ begin
   if(l <> Nil) then begin
     if(l^.dato > min) then 
       min := l^.dato;
-    minimo(l^.sig);
+    minimo(l^.sig,min);
   end;
 end;
+
+function buscarElemento(l: lista; num: integer) : Boolean;
+begin
+  buscarElemento := False;
+  if(l <> Nil) then begin
+    if(num = l^.dato) then begin
+      buscarElemento := True;
+    end
+    else
+      buscarElemento(l^.sig,num);
+  end;
+end;
+
+var
+  l: lista;
+  num,min: integer;
+begin
+  randomize;
+  l := Nil;
+  cargarLista(l);
+  imprimirListaOrden(l);
+  imprimirListaInversa(l);
+  min := 201;
+  minimo(l,min);
+  write('Numero a buscar: ');ReadLn(num);
+  WriteLn(buscarElemento(l,num));
+end.
 {2.- Escribir un programa que:
 a. Implemente un módulo recursivo que genere y retorne una lista de números enteros “random” en el rango 100-200. Finalizar con el número 100.
 b. Un módulo recursivo que reciba la lista generada en a) e imprima los valores de la lista en el mismo orden que están almacenados.
