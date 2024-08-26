@@ -2,14 +2,14 @@ program ejercicio3;
 const
 	dimF = 20;
 type
+	indice = -1..20;
 	vector = array[1..dimF] of integer;
 
-procedure cargarVector(var v: vector;var dimL: integer);
+procedure cargarVector(var v: vector;pos: integer);
 begin
-	dimL += 1;
-	if(dimL <= dimF) then begin
-		v[dimL] := random(1251)+300;
-		cargarVector(v,dimL);
+	if(pos > 0) then begin
+		v[pos] := random(1251)+300;
+		cargarVector(v,pos-1);
 	end;
 end;
 
@@ -20,7 +20,7 @@ begin
 	for i := 2 to dimF do begin
 		actual := v[i];
 		j := i-1;
-		while((j > 0) and (v[j] < actual)) do begin
+		while((j > 0) and (v[j] > actual)) do begin
 			v[j+1] := v[j];
 			j := j - 1;
 		end;
@@ -36,37 +36,60 @@ begin
 		WriteLn(v[i]);
 end;
 
-procedure busquedaDicotomica(v: vector; ini,fin: integer;dato: integer;var pos: integer);
+{Procedure busquedaDicotomica (v: vector; ini,fin: indice; dato:integer; var pos: indice);
 var
-	medio: integer;
+	medio: indice;
 begin
-	pos := -1;
-	medio := (ini + fin) div 2;
-	while((ini <= fin) and (dato <> v[medio])) do begin
-		if(dato < v[medio]) then
-			fin := medio-1
+	medio:= (fin + ini) DIV 2;
+	while ((fin >= ini) AND (v[medio] <> dato)) do begin
+		if (dato > v[medio]) then
+			ini:= medio + 1
 		else
-			ini := medio+1;
-		medio := (ini + fin) div 2;
+			fin:= medio - 1;
+		medio:= (fin + ini) DIV 2;
 	end;
-	if((ini <= fin) and (dato = v[medio])) then
-		pos := medio;
+	if (fin >= ini) then
+		pos:= medio
+	else
+		pos:= -1;
+end;}
+
+
+procedure busquedaDicotomica(v: vector; ini,fin: indice;dato: integer;var pos: indice);
+var
+	medio: indice;
+begin
+		if(ini > fin) then
+			pos := -1
+		else begin
+			medio := (ini + fin) div 2;
+			if(v[medio] = dato) then begin
+				pos := medio;
+				WriteLn('entra1');
+			end
+			else if(v[medio] > dato) then begin
+				WriteLn('entra2');
+				busquedaDicotomica(v,ini,medio-1,dato,pos)
+			end
+			else begin
+				WriteLn('entra3');
+				busquedaDicotomica(v,medio+1,fin,dato,pos);
+				end;
+		end;
 end;
 
 var
 	v: vector;
-	ini, fin, dato, pos, dimL: integer;
+	dato: integer;
+	pos: indice;
 begin
-	dimL := 0;
-	cargarVector(v,dimL);
+	cargarVector(v,dimF);
 	imprimirVector(v);
 	WriteLn;
 	insercion(v);
 	imprimirVector(v);
-	ini := 1;
-	fin := dimF;
 	write('Valor a buscar: ');ReadLn(dato);
-	busquedaDicotomica(v,ini,fin,dato,pos);
+	busquedaDicotomica(v,1,dimF,dato,pos);
 	WriteLn(pos);
 end.
 {3.- Implementar un programa que invoque a los siguientes módulos.
