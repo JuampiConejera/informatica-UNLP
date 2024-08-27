@@ -21,8 +21,8 @@ var
   num: integer;
 begin
   num := random(101)+100;
-  agregarAdelante(l,num);
   if(num <> 100) then begin
+    agregarAdelante(l,num);
     cargarLista(l^.sig);
   end;
 end;
@@ -46,7 +46,7 @@ end;
 procedure minimo(l: lista;var min: integer);
 begin
   if(l <> Nil) then begin
-    if(l^.dato > min) then 
+    if(l^.dato < min) then 
       min := l^.dato;
     minimo(l^.sig,min);
   end;
