@@ -1,5 +1,5 @@
 program ejercicio4;
-procedure binario(num: integer);
+procedure binario(num: LongInt);
 begin
   if(num > 0) then begin
     binario(num div 2);
@@ -9,7 +9,7 @@ end;
 
 procedure imprimirBinarios();
 var
-  num: integer;
+  num: longint;
 begin
   write('Numero a convertir: ');ReadLn(num);
   if(num <> 0) then begin
