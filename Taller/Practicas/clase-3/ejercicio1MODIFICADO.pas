@@ -27,7 +27,7 @@ type rangoEdad = 12..100;
                     dato: socio;
                     HI: arbol;
                     HD: arbol;
-                 end;
+                end;
      
 procedure GenerarArbol (var a: arbol);
 { Implementar un modulo que almacene informacion de socios de un club en un arbol binario de busqueda. De cada socio se debe almacenar numero de socio, 
@@ -38,7 +38,7 @@ aleatoriamente. }
   var vNombres:array [0..9] of string= ('Ana', 'Jose', 'Luis', 'Ema', 'Ariel', 'Pedro', 'Lena', 'Lisa', 'Martin', 'Lola'); 
   
   begin
-    s.numero:= random (51) * 100;
+    s.numero:= 0;
     If (s.numero <> 0)
     then begin
            s.nombre:= vNombres[random(10)];
@@ -82,13 +82,14 @@ procedure InformarSociosOrdenCreciente (a: arbol);
   
   procedure InformarDatosSociosOrdenCreciente (a: arbol);
   begin
-    if ((a <> nil) and (a^.HI <> nil))
+    if (a<>nil) then  begin
+    if (a^.HI <> nil)
     then InformarDatosSociosOrdenCreciente (a^.HI);
     writeln ('Numero: ', a^.dato.numero, ' Nombre: ', a^.dato.nombre, ' Edad: ', a^.dato.edad);
-    if ((a <> nil) and (a^.HD <> nil))
-    then InformarDatosSociosOrdenCreciente (a^.HD);
+    if (a^.HD <> nil)
+    then InformarDatosSociosOrdenCreciente (a^.HD); 
   end;
-
+end;
 Begin
  writeln;
  writeln ('----- Socios en orden creciente por numero de socio ----->');
@@ -171,9 +172,9 @@ procedure InformarSociosOrdenDecreciente (a: arbol);
   begin
     if ((a <> nil) and (a^.HD <> nil))
     then InformarDatosSociosOrdenDecreciente (a^.HD);
+    writeln ('Numero: ', a^.dato.numero, ' Nombre: ', a^.dato.nombre, ' Edad: ', a^.dato.edad);
     if ((a <> nil) and (a^.HI <> nil))
     then InformarDatosSociosOrdenDecreciente (a^.HI);
-    writeln ('Numero: ', a^.dato.numero, ' Nombre: ', a^.dato.nombre, ' Edad: ', a^.dato.edad);
     {if(a <> Nil) then begin
       WriteLn('Numero: ',a^.dato.numero,' Nombre: ',a^.dato.nombre, ' Edad: ', a^.dato.edad);
       InformarDatosSociosOrdenDecreciente(a^.HI);
@@ -203,5 +204,5 @@ Begin
   { InformarExistenciaNombreSocio (a); COMPLETAR
     InformarCantidadSocios (a); COMPLETAR
     InformarPromedioDeEdad (a); COMPLETAR
-  }   
+  }
 End.
