@@ -5,13 +5,20 @@ type
 	indice = -1..20;
 	vector = array[1..dimF] of integer;
 
-procedure cargarVector(var v: vector;pos: integer);
+procedure cargarVector(var v: vector);
+procedure CargarVectorRecursivo(var v: vector;pos: integer);
 begin
-	if(pos > 0) then begin
+	if(pos <= dimF) then begin
+		pos += 1;
+		
 		v[pos] := random(1251)+300;
-		cargarVector(v,pos-1);
+		CargarVectorRecursivo(v,pos+1);
 	end;
 end;
+begin
+	CargarVectorRecursivo(v, 0);
+end;
+
 
 procedure insercion(var v: vector);
 var
@@ -83,7 +90,7 @@ var
 	dato: integer;
 	pos: indice;
 begin
-	cargarVector(v,dimF);
+	cargarVector(v);
 	imprimirVector(v);
 	WriteLn;
 	insercion(v);
