@@ -13,7 +13,7 @@ b. Una vez generado el arbol, realice modulos independientes que reciban el arbo
 
 }
 
-Program ImperativoClase3;
+Program ejercicio1;
 
 type rangoEdad = 12..100;
      cadena15 = string [15];
@@ -211,6 +211,26 @@ begin
     end;
 end;
 
+function InformarPromedioDeEdad(a: arbol;cantidadSocios: integer) : real;
+  procedure calcularEdades(a: arbol;var totalEdad: integer);
+  begin
+    if(a <> Nil) then begin
+      totalEdad += a^.dato.edad;
+      if(a^.HI <> Nil) then
+        informarCantidadSocios(a^.HI,totalEdad);
+      if(a^.HD <> Nil) then
+        informarCantidadSocios(a^.HD,totalEdad);
+    end;
+  end;
+var
+  totalEdad: integer;
+begin
+  totalEdad := 0;
+  calcularEdades(a,totalEdad);
+  InformarPromedioDeEdad := totalEdad / cantidadSocios;
+end;
+
+
 var a: arbol; nombre: string; cantidadSocios: integer;
 Begin
   randomize;
@@ -222,6 +242,7 @@ Begin
   write('Nombre a buscar en el arbol: ');ReadLn(Nombre);
   WriteLn(InformarExistenciaNombreSocio (a,nombre)); {COMPLETAR}
   cantidadSocios := 0;
-  WriteLn(InformarCantidadSocios (a,cantidadSocios)); {COMPLETAR
-  InformarPromedioDeEdad (a); COMPLETAR}
+  InformarCantidadSocios (a,cantidadSocios); {COMPLETAR}
+  writeLn('Hay ', cantidadSocios, ' socios.');
+  writeLn('El promedio de edad es: ',InformarPromedioDeEdad (a,cantidadSocios):0:2); {COMPLETAR}
 End.
