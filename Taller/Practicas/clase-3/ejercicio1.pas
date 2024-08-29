@@ -166,16 +166,62 @@ begin
   writeln;
 end;
 
-var a: arbol; 
+procedure informarSociosDecreciente(a: arbol);
+    procedure informarDatosSociosOrdenDecreciente(a: arbol);
+    begin
+        if(a <> Nil) then begin
+            if(a^.HD <> Nil) then
+                informarDatosSociosOrdenDecreciente(a^.HD);
+            WriteLn('Numero: ', a^.dato.numero, ' Nombre: ',a^.dato.    nombre, ' Edad: ', a^.dato.edad);
+            if(a^.HI <> Nil) then
+                informarDatosSociosOrdenDecreciente(a^.HI);
+        end;
+    end;
+Begin
+ writeln;
+ writeln ('----- Socios en orden decreciente por numero de socio ----->');
+ writeln;
+ InformarDatosSociosOrdenDecreciente(a);
+ writeln;
+ writeln ('//////////////////////////////////////////////////////////');
+ writeln;
+end;
+
+function informarExistenciaNombreSocio(a:arbol;nombre: String) : Boolean;
+begin
+    if(a <> Nil) then begin
+    informarExistenciaNombreSocio := False;
+    if(a^.dato.nombre = nombre) then
+        informarExistenciaNombreSocio := True
+    else if(a^.HI <> Nil) then
+        informarExistenciaNombreSocio := informarExistenciaNombreSocio(a^.HI,nombre)
+    else if(a^.HD <> Nil) then
+        informarExistenciaNombreSocio := informarExistenciaNombreSocio(a^.HD,nombre);
+    end;
+end;
+
+procedure informarCantidadSocios(a:arbol;var cantidadSocios: integer);
+begin
+    if(a <> Nil) then begin
+        cantidadSocios += 1;
+        if(a^.HI <> Nil) then
+            informarCantidadSocios(a^.HI,cantidadSocios);
+        if(a^.HD <> Nil) then
+            informarCantidadSocios(a^.HD,cantidadSocios);
+    end;
+end;
+
+var a: arbol; nombre: string; cantidadSocios: integer;
 Begin
   randomize;
   GenerarArbol (a);
   InformarSociosOrdenCreciente (a);
-  {InformarSociosOrdenDecreciente (a); COMPLETAR}
+  informarSociosDecreciente (a); {COMPLETAR}
   InformarNumeroSocioConMasEdad (a);
   AumentarEdadNumeroImpar (a);
-  { InformarExistenciaNombreSocio (a); COMPLETAR
-    InformarCantidadSocios (a); COMPLETAR
-    InformarPromedioDeEdad (a); COMPLETAR
-  }   
+  write('Nombre a buscar en el arbol: ');ReadLn(Nombre);
+  WriteLn(InformarExistenciaNombreSocio (a,nombre)); {COMPLETAR}
+  cantidadSocios := 0;
+  WriteLn(InformarCantidadSocios (a,cantidadSocios)); {COMPLETAR
+  InformarPromedioDeEdad (a); COMPLETAR}
 End.
