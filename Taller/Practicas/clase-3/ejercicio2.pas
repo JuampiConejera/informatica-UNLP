@@ -164,7 +164,34 @@ begin
 	cantidad := 0;
 	contarTotal(a,f,cantidad);
 	cantidadTotalProductos := cantidad;
+
 end;
+
+function maximo(a: arbolTotal) : integer;
+	procedure calcularMaximo(a: arbolTotal;var codigoMaximo: integer;maximoVentas: integer);
+	begin
+		if(a <> Nil) then begin
+			if(a^.dato.cantidadTotal > maximoVentas) then begin
+				codigoMaximo := a^.dato.codigo;
+				maximoVentas := a^.dato.cantidadTotal;
+			end;
+			if(a^.HI <> Nil) then
+				calcularMaximo(a^.HI,codigoMaximo,maximoVentas);
+			if(a^.HD <> Nil) then
+				calcularMaximo(a^.HD,codigoMaximo,maximoVentas);
+		end
+		else
+			codigoMaximo := -1;
+	end;
+var
+	maximoVentas, codigoMaximo: integer;
+begin
+	maximoVentas := -1;
+	calcularMaximo(a,codigoMaximo,maximoVentas);
+	maximo := codigoMaximo;
+end;
+
+
 var
 	a: arbol; at: arbolTotal; al: arbolListas;
 	f: rangoFecha;
@@ -178,6 +205,7 @@ begin
 	write('Mes: '); readln(f.mes);
 	write('anio: '); readln(f.anio);
 	writeLn('El ',f.dia,'/',f.mes,'/',f.anio,' hubo ', cantidadTotalProductos(a,f), ' productos vendidos.');
+	writeLn('El producto con mas ventas es: ',maximo(at));
 End.
 
 
@@ -197,4 +225,5 @@ las ventas realizadas del producto.
 Nota: El módulo debe retornar TRES árboles.
 b. Implemente un módulo que reciba el árbol generado en i. y una fecha y retorne la cantidad
 total de productos vendidos en la fecha recibida.
-}
+c. Implemente un módulo que reciba el árbol generado en ii. y retorne el código de producto
+con mayor cantidad total de unidades vendidas.}
