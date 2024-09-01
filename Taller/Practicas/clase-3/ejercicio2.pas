@@ -57,11 +57,11 @@ type
 
 procedure leerVentas(var v: venta);
 begin
-  v.codigo := random(100);
-  v.fecha.dia := random(31);
-  v.fecha.dia := random(31);
-  v.fecha.dia := random(31);
-  v.cant := random(100);
+  {v.codigo := random(100)}ReadLn(v.codigo);
+  {v.fecha.dia := random(31)}ReadLn(v.fecha.dia);
+  {v.fecha.mes := random(31)}ReadLn(v.fecha.mes);
+  {v.fecha.mes := random(31)}ReadLn(v.fecha.anio);
+  {v.cant := random(100)}ReadLn(v.cant);
 end;
 
 procedure agregarAdelante(var l: lista;v: venta);
@@ -120,6 +120,7 @@ begin
 	if(al = Nil) then begin
 		New(al);
 		al^.dato.codigo := v.codigo;
+		al^.dato.info := Nil;
 		agregarAdelante(al^.dato.info,v);
 		al^.HI := Nil;
 		al^.HD := Nil;	

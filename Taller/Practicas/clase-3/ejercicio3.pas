@@ -30,21 +30,6 @@ type
 		HI: arbol;
 		HD: arbol;
 	end;
-
-procedure agregarArbol(var a: arbol;i: alumno);
-begin
-	if(a = Nil) then begin
-		new(a);
-		a^.dato := i;
-		a^.HI := Nil;
-		a^.HD := Nil;
-	end
-	else if(a^.dato.legajo > i.legajo) then
-		agregarArbol(a^.HI,i)
-	else
-		agregarArbol(a^.HD,i);
-end;
-
 procedure agregarAdelante(var l: lista;i: informacion);
 var
 	aux: lista;
@@ -55,6 +40,23 @@ begin
 	l := aux;
 end;
 
+procedure agregarArbol(var a: arbol;i: alumno);
+begin
+	if(a = Nil) then begin
+		new(a);
+		a^.dato.legajo := i.legajo;
+		a^.dato.info := Nil;
+		agregarAdelante(a^.dato.info,i);
+		a^.HI := Nil;
+		a^.HD := Nil;
+	end
+	else if(a^.dato.legajo > i.legajo) then
+		agregarArbol(a^.HI,i)
+	else
+		agregarArbol(a^.HD,i);
+end;
+
+
 procedure leerInfo(var i: informacion);
 begin
 	write('Codigo materia: ');{readln(i.codigoMateria);} i.codigomateria := random(500);
@@ -64,18 +66,6 @@ begin
 	write('Nota: ');{readln(i.nota);} i.nota := random * 10;
 end;
 
-procedure leerAlumno(var a: alumno);
-var
-	l: lista;
-	i: informacion;
-begin
-	write('Numero legajo: '); {readLn(a.legajo)} a.legajo := random(3);
-	if(a.legajo <> 0) then begin
-		l := Nil;
-		leerInfo(i);
-		agregarAdelante(l,i);
-	end;
-end;
 
 
 procedure cargarArbol(var a: arbol);
@@ -133,6 +123,8 @@ begin
 	end;
 end;
 
+procedure legajosPromedios
+
 var
 	a: arbol;
 begin
@@ -154,3 +146,4 @@ c. Un módulo que reciba la estructura generada en a. e informe, para cada alumn
 su cantidad de finales aprobados (nota mayor o igual a 4).
 d. Un módulo que reciba la estructura generada en a. y un valor real. Este módulo debe
 retornar los legajos y promedios de los alumnos cuyo promedio supera el valor ingresado.}
+
