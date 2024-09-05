@@ -1,138 +1,160 @@
 program ejercicio3;
 type
-	rangoDias = 1..31;
-	rangoMeses = 1..12;
-	rangoFecha = record
-		dia: rangoDias;
-		mes: rangoMeses;
-		anio: 1900..2024;
+
+	formatoFecha = record
+		dia:1..31;
+		mes:1..12;
+		ano:1900..2024;
 	end;
-	informacion = record
-		codigoMateria: integer;
-		fecha: rangoFecha;
-		nota: real;
+
+	datosFinal = record
+		nota:real;
+		fecha:formatoFecha;
+		codigo:integer;
+	end;
+
+	lista = ^nodo;
+	nodo = record
+		datos:datosFinal;
+		nodoSig:lista;
 	end;
 	
-	lista = ^nodoLista;
-	nodoLista = record
-		dato: informacion;
-		sig: lista;
-	end;
-	
-	alumno = record
+	registrodearbol = record
 		legajo: integer;
-		info: lista;
+		infoFinales: lista;
 	end;
 	
 	arbol = ^nodoArbol;
 	nodoArbol = record
-		dato: alumno;
-		HI: arbol;
-		HD: arbol;
+		dato:registrodearbol;
+		hi:arbol;
+		hd:arbol;
 	end;
-procedure agregarAdelante(var l: lista;i: informacion);
+	
+procedure agregarAdelante(var l:lista; d:datosFinal);
 var
-	aux: lista;
+	aux:lista;
 begin
 	new(aux);
-	aux^.dato := i;
-	aux^.sig := l;
-	l := aux;
+	aux^.datos:=d;
+	aux^.nodoSig:=l;
+	l:=aux;
+end;
+	
+procedure leerRegistros(var d: datosFinal; var legajo: integer);
+begin
+	legajo :=random(30);
+	d.codigo:=random(50);
+	d.fecha.dia:=random(31)+1;
+	d.fecha.mes:=random(12)+1;
+	d.fecha.ano:=random(5)+2020;
+	d.nota:=random()*10;
 end;
 
-procedure agregarArbol(var a: arbol;i: alumno);
+procedure agregar(var a:arbol; legajo: integer; datosLista: datosFinal);
 begin
-	if(a = Nil) then begin
+	if(a = nil) then begin
 		new(a);
-		a^.dato.legajo := i.legajo;
-		a^.dato.info := Nil;
-		agregarAdelante(a^.dato.info,i);
 		a^.HI := Nil;
 		a^.HD := Nil;
+		a^.dato.legajo := legajo;
+		a^.dato.infoFinales := Nil;
+		agregarAdelante(a^.dato.infoFinales,datosLista);
 	end
-	else if(a^.dato.legajo > i.legajo) then
-		agregarArbol(a^.HI,i)
-	else
-		agregarArbol(a^.HD,i);
-end;
-
-
-procedure leerInfo(var i: informacion);
-begin
-	write('Codigo materia: ');{readln(i.codigoMateria);} i.codigomateria := random(500);
-	write('Dia: ');{readln(i.fecha.dia);} i.fecha.dia := random(31)+1;
-	write('Mes: '); {readln(i.fecha.mes);} i.fecha.mes := random(12)+1;
-	write('Anio: ');{readln(i.fecha.anio);} i.fecha.anio := random(1025)+1900;
-	write('Nota: ');{readln(i.nota);} i.nota := random * 10;
-end;
-
-
-
-procedure cargarArbol(var a: arbol);
-var
-	infoAlumno: alumno;
-begin
-	leerAlumno(infoAlumno);
-	while(infoAlumno.legajo <> 0) do begin
-		agregarArbol(a,infoAlumno);
-		leerAlumno(infoAlumno);
+	else begin
+		if(legajo = a^.dato.legajo) then
+			agregarAdelante(a^.dato.infoFinales,datosLista)
+		else if(legajo < a^.dato.legajo) then
+			agregar(a^.HI,legajo,datosLista)
+		else
+			agregar(a^.hd, legajo, datosLista);
 	end;
 end;
 
-function cantidadAlumnosImpar(a: arbol) : integer;
-	procedure contarLegajosImpar(a: arbol; var cantidad: integer);
-	begin
-		if(a <> Nil) then begin
-			if(a^.dato.legajo mod 2 = 1) then
-				cantidad += 1;
-			if(a^.HI <> Nil) then
-				contarLegajosImpar(a^.HI,cantidad);
-			if(a^.HD <> Nil) then
-				contarLegajosImpar(a^.HD,cantidad);
- 		end;
-	end;
+procedure cargarArbol(var a:arbol);
 var
-	cantidad: integer;
+	legajo:integer;
+	d: datosFinal;
 begin
-	cantidad := 0;
-	contarLegajosImpar(a,cantidad);
-	cantidadAlumnosImpar := cantidad;
+	leerRegistros(d,legajo);
+	while(legajo <> 0) do begin
+	    agregar(a,legajo,d);
+    	leerRegistros(d,legajo);
+	end;
 end;
 
-procedure informarFinales(a: arbol);
-	procedure contarAprobados(l: lista;var cantidad: integer);
-	begin
-		while(l <> Nil) do begin
-			if(l^.dato.nota >= 4) then
-				cantidad += 1;
-			l := l^.sig;
+procedure imprimirLista(l: lista);
+begin
+	while(l <> nil) do begin
+		writeln('Codigo materia: ',l^.datos.codigo);
+		writeln('fecha: ',l^.datos.fecha.dia, '/',l^.datos.fecha.mes,'/',l^.datos.fecha.ano);
+		writeln('Nota: ',l^.datos.nota);
+		WriteLn('									');
+		l := l^.nodoSig;
+	end;
+end;
+
+procedure imprimirArbol(a:arbol);
+begin
+	if (a <> nil) then
+		begin
+			writeln('Legajo: ', a^.dato.legajo);
+			imprimirLista(a^.dato.infoFinales);
+			WriteLn('==============================');
+			if (a^.hi <> nil) then
+				imprimirArbol(a^.hi);
+			if(a^.hd <> Nil) then
+				imprimirArbol(a^.hd);
 		end;
-	end;
+end;
 
-var
-	cantidad: integer;
+function cantidadLegajoImpar(a: arbol) : integer;
+begin
+    if(a = Nil) then
+	    cantidadLegajoImpar := 0
+	else begin
+		if(a^.dato.legajo mod 2 = 1) then
+			cantidadLegajoImpar := cantidadLegajoImpar(a^.HI) + cantidadLegajoImpar(a^.HD) + 1
+		else
+		    cantidadLegajoImpar := cantidadLegajoImpar(a^.HI) + cantidadLegajoImpar(a^.HD);
+	end;
+end;
+
+procedure informarFinalesAprobados(a: arbol);
+	procedure imprimirFinalesAprobados(l: lista);
+	var
+		cantidad: integer;
+	begin
+		cantidad := 0;
+	    while(l <> Nil) do begin
+		    if(l^.datos.nota > 4) then
+				cantidad += 1;
+			l := l^.nodoSig;
+		end;
+		WriteLn('La cantidad de finales aprobados es: ', cantidad);
+	end;
 begin
 	if(a <> Nil) then begin
-		cantidad := 0;
-		contarAprobados(a^.dato.info,cantidad);
-		writeln('La cantidad de finales aprobados por el alumno con legajo ', a^.dato.legajo, ' son: ', cantidad);
+	    WriteLn('Legajo: ', a^.dato.legajo);
+		imprimirFinalesAprobados(a^.dato.infoFinales);
 		if(a^.HI <> Nil) then
-			informarFinales(a^.HI);
+			informarFinalesAprobados(a^.HI);
 		if(a^.HD <> Nil) then
-			informarFinales(a^.HD);
+			informarFinalesAprobados(a^.HD);
 	end;
 end;
 
-procedure legajosPromedios
+
 
 var
-	a: arbol;
+	a:arbol;
 begin
 	randomize;
-	a := Nil;
+	a:=nil;
 	cargarArbol(a);
-	writeLn('La cantidad de alumnos con legajo impar es: ', cantidadAlumnosImpar(a));
-	informarFinales(a);
+	imprimirArbol(a);
+	WriteLn(cantidadLegajoImpar(a));
+	informarFinalesAprobados(a);
 end.
 {3. Implementar un programa que contenga:
 a. Un módulo que lea información de los finales rendidos por los alumnos de la Facultad de
@@ -146,4 +168,3 @@ c. Un módulo que reciba la estructura generada en a. e informe, para cada alumn
 su cantidad de finales aprobados (nota mayor o igual a 4).
 d. Un módulo que reciba la estructura generada en a. y un valor real. Este módulo debe
 retornar los legajos y promedios de los alumnos cuyo promedio supera el valor ingresado.}
-
