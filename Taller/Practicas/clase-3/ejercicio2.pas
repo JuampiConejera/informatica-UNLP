@@ -208,9 +208,6 @@ begin
 	writeLn('El ',f.dia,'/',f.mes,'/',f.anio,' hubo ', cantidadTotalProductos(a,f), ' productos vendidos.');
 	writeLn('El producto con mas ventas es: ',maximo(at));
 End.
-
-
-
 {2. Escribir un programa que:
 a. Implemente un módulo que genere aleatoriamente información de ventas de un comercio.
 Para cada venta generar código de producto, fecha y cantidad de unidades vendidas. Finalizar
