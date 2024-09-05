@@ -15,7 +15,7 @@ type
 
 	lista = ^nodo;
 	nodo = record
-		datos:datosFinal;
+		dato:datosFinal;
 		nodoSig:lista;
 	end;
 	
@@ -31,12 +31,23 @@ type
 		hd:arbol;
 	end;
 	
+	Promedios = record
+		legajo: integer;
+		promedio: real;
+	end;
+	
+	listaPromedios = ^nodoPromedios;
+	nodoPromedios = record
+		dato: Promedios;
+		sig: listaPromedios;
+	end;
+	
 procedure agregarAdelante(var l:lista; d:datosFinal);
 var
 	aux:lista;
 begin
 	new(aux);
-	aux^.datos:=d;
+	aux^.dato:=d;
 	aux^.nodoSig:=l;
 	l:=aux;
 end;
@@ -86,9 +97,9 @@ end;
 procedure imprimirLista(l: lista);
 begin
 	while(l <> nil) do begin
-		writeln('Codigo materia: ',l^.datos.codigo);
-		writeln('fecha: ',l^.datos.fecha.dia, '/',l^.datos.fecha.mes,'/',l^.datos.fecha.ano);
-		writeln('Nota: ',l^.datos.nota);
+		writeln('Codigo materia: ',l^.dato.codigo);
+		writeln('fecha: ',l^.dato.fecha.dia, '/',l^.dato.fecha.mes,'/',l^.dato.fecha.ano);
+		writeln('Nota: ',l^.dato.nota);
 		WriteLn('									');
 		l := l^.nodoSig;
 	end;
@@ -127,7 +138,7 @@ procedure informarFinalesAprobados(a: arbol);
 	begin
 		cantidad := 0;
 	    while(l <> Nil) do begin
-		    if(l^.datos.nota > 4) then
+		    if(l^.dato.nota > 4) then
 				cantidad += 1;
 			l := l^.nodoSig;
 		end;
@@ -145,9 +156,52 @@ begin
 end;
 
 
+procedure cargarLista(a: arbol; p: real;lp: listaPromedios);
+	
+	procedure agregarAdelanteNotas(var lp: listaPromedios;p: promedios);
+	var
+		aux: listaPromedios;
+	begin
+		New(aux);
+		aux^.dato := p;
+		aux^.sig := lp;
+		lp := aux;
+	end;
+	
+	procedure calcularPromedios(var lp: listaPromedios;l: lista;prom: real;legajo: integer);
+	var
+		cantidad: integer;
+		sumaNotas: real;
+		p: promedios;
+	begin
+		cantidad := 0;
+		sumaNotas := 0;
+		while(l <> nil) do begin
+			cantidad += 1;
+			sumaNotas += l^.dato.nota;
+			l := l^.nodoSig;
+		end;
+		p.promedio := sumaNotas/cantidad;
+		p.legajo := legajo;
+		if(p.promedio > prom) then
+			agregarAdelanteNotas(lp,p);
+	end;
+	
+begin
+	if(a <> Nil) then begin
+		calcularPromedios(lp,a^.dato.infoFinales,p,a^.dato.legajo);
+		if(a^.HI <> Nil) then
+			cargarLista(a^.HI,p,lp);
+		if(a^.HD <> Nil) then
+			cargarLista(a^.HD,p,lp);
+	end;
+end;
+
 
 var
 	a:arbol;
+	lp: listaPromedios;
+	promedio: real;
 begin
 	randomize;
 	a:=nil;
@@ -155,6 +209,9 @@ begin
 	imprimirArbol(a);
 	WriteLn(cantidadLegajoImpar(a));
 	informarFinalesAprobados(a);
+	lp := Nil;
+	write('Escribir promedio a superar: '); readln(promedio);
+	cargarLista(a,promedio,lp);
 end.
 {3. Implementar un programa que contenga:
 a. Un módulo que lea información de los finales rendidos por los alumnos de la Facultad de
