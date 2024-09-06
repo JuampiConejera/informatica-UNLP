@@ -126,10 +126,10 @@ begin
 		    if(a^.dato.codigo < segundo) then
 			    montoTotalEntreCodigos := a^.dato.montoTotal + montoTotalEntreCodigos(a^.HI,primero,segundo) + montoTotalEntreCodigos(a^.HD,primero,segundo)
 			else
-				montoTotalEntreCodigos := montoTotalEntreCodigos(a^.dato.HI);
+				montoTotalEntreCodigos := montoTotalEntreCodigos(a^.HI,primero,segundo);
 		end
 		else
-			montoTotalEntreCodigos := montoTotalEntreCodigos(a^.dato.HD);
+			montoTotalEntreCodigos := montoTotalEntreCodigos(a^.HD,primero,segundo);
 	end;
 end;
 
