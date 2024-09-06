@@ -127,7 +127,7 @@ begin
 		if(a^.dato.legajo mod 2 = 1) then
 			cantidadLegajoImpar := cantidadLegajoImpar(a^.HI) + cantidadLegajoImpar(a^.HD) + 1
 		else
-		    cantidadLegajoImpar := cantidadLegajoImpar(a^.HI) + cantidadLegajoImpar(a^.HD);
+			cantidadLegajoImpar := cantidadLegajoImpar(a^.HI) + cantidadLegajoImpar(a^.HD);
 	end;
 end;
 

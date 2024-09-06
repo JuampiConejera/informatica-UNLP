@@ -105,7 +105,7 @@ begin
 	end;
 end;
 
-function montoTotalEntreCodigos(a: arbol; primero,segundo : integer) : real;
+{function montoTotalEntreCodigos(a: arbol; primero,segundo : integer) : real;
 begin
 	if(a = nil) then
 		montoTotalEntreCodigos := 0
@@ -114,6 +114,22 @@ begin
 			montoTotalEntreCodigos := montoTotalEntreCodigos(a^.HI,primero,segundo) + montoTotalEntreCodigos(a^.HD,primero,segundo) + a^.dato.montoTotal
 		else
 			montoTotalEntreCodigos := montoTotalEntreCodigos(a^.HI,primero,segundo) + montoTotalEntreCodigos(a^.HD,primero,segundo);
+	end;
+end;}
+
+function montoTotalEntreCodigos(a: arbol; primero,segundo: integer) : real;
+begin
+	if(a = nil) then
+		montoTotalEntreCodigos := 0
+    else begin
+	    if(a^.dato.codigo > primero) then begin
+		    if(a^.dato.codigo < segundo) then
+			    montoTotalEntreCodigos := a^.dato.montoTotal + montoTotalEntreCodigos(a^.HI,primero,segundo) + montoTotalEntreCodigos(a^.HD,primero,segundo)
+			else
+				montoTotalEntreCodigos := montoTotalEntreCodigos(a^.dato.HI);
+		end
+		else
+			montoTotalEntreCodigos := montoTotalEntreCodigos(a^.dato.HD);
 	end;
 end;
 
