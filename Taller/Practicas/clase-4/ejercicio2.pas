@@ -1,232 +1,255 @@
-Program ImperativoClase4;
+{Escribir un programa que:
+a. Implementar un modulo que almacene informacion de socios de un club en un arbol binario de busqueda. De cada socio se debe almacenar numero de socio, 
+nombre y edad. La carga finaliza con el numero de socio 0 y el arbol debe quedar ordenado por numero de socio. La informacion de cada socio debe generarse
+aleatoriamente.
+b. Una vez generado el arbol, realice modulos independientes que reciban el arbol como parametro para: 
+    i. Informar los datos de los socios en orden creciente.
+    ii. Informar los datos de los socios en orden decreciente.
+    iii. Informar el número de socio con mayor edad. Debe invocar a un módulo recursivo que retorne dicho valor.
+    iv. Aumentar en 1 la edad de los socios con edad impar e informar la cantidad de socios que se les aumento la edad.
+    vi. Leer un nombre e informar si existe o no existe un socio con ese nombre. Debe invocar a un módulo recursivo que reciba el nombre leído y retorne verdadero o falso.
+    vii. Informar la cantidad de socios. Debe invocar a un módulo recursivo que retorne dicha cantidad.
+    viii. Informar el promedio de edad de los socios. Debe invocar a un módulo recursivo que retorne el promedio de las edades de los socios.
 
-type venta = record
-               codigoVenta: integer;
-               codigoProducto: integer;
-               cantUnidades: integer;
-               precioUnitario: real;
+}
+
+Program ejercicio1;
+
+type rangoEdad = 12..100;
+     cadena15 = string [15];
+     socio = record
+               numero: integer;
+               nombre: cadena15;
+               edad: rangoEdad;
              end;
-     productoVendido = record
-                         codigo: integer;
-                         cantTotalUnidades: integer;
-                         montoTotal: real;
-                       end;
      arbol = ^nodoArbol;
      nodoArbol = record
-                    dato: productoVendido;
+                    dato: socio;
                     HI: arbol;
                     HD: arbol;
                  end;
      
-procedure ModuloA (var a: arbol);
-{ Almacene los productos vendidos en una estructura eficiente para la búsqueda por código de producto. De cada producto deben quedar almacenados la cantidad total 
-de unidades vendidas y el monto total. }
+procedure GenerarArbol (var a: arbol);
+{ Implementar un modulo que almacene informacion de socios de un club en un arbol binario de busqueda. De cada socio se debe almacenar numero de socio, 
+nombre y edad. La carga finaliza con el numero de socio 0 y el arbol debe quedar ordenado por numero de socio. La informacion de cada socio debe generarse
+aleatoriamente. }
 
-  Procedure CargarVenta (var v: venta);
+  Procedure CargarSocio (var s: socio);
+  var vNombres:array [0..9] of string= ('Ana', 'Jose', 'Luis', 'Ema', 'Ariel', 'Pedro', 'Lena', 'Lisa', 'Martin', 'Lola'); 
+  
   begin
-    v.codigoVenta:= random (51) * 100;
-    If (v.codigoVenta <> 0)
+    s.numero:= random (51) * 100;
+    If (s.numero <> 0)
     then begin
-           v.codigoProducto:= random (100) + 1;
-           v.cantUnidades:= random(15) + 1;
-           v.precioUnitario:= (100 + random (100))/2;
+           s.nombre:= vNombres[random(10)];
+           s.edad:= 12 + random (79);
          end;
   end;  
   
-  Procedure InsertarElemento (var a: arbol; elem: venta);
-  var p: productoVendido;
-     
-     Procedure ArmarProducto (var p: productoVendido; v: venta);
-     begin
-       p.codigo:= v.codigoProducto;
-       p.cantTotalUnidades:= v.cantUnidades;
-       p.montoTotal:= v.cantUnidades * v.precioUnitario;
-     end;
-  
+  Procedure InsertarElemento (var a: arbol; elem: socio);
   Begin
     if (a = nil) 
     then begin
            new(a);
-           ArmarProducto (p, elem);
-           a^.dato:= p; 
+           a^.dato:= elem; 
            a^.HI:= nil; 
            a^.HD:= nil;
          end
-    else if (elem.codigoProducto = a^.dato.codigo)
-         then begin
-                a^.dato.cantTotalUnidades:= a^.dato.cantTotalUnidades + elem.cantUnidades;
-                a^.dato.montoTotal:= a^.dato.montoTotal + (elem.cantUnidades * elem.precioUnitario);
-              end
-         else if (elem.codigoProducto < a^.dato.codigo) 
-              then InsertarElemento(a^.HI, elem)
-              else InsertarElemento(a^.HD, elem); 
+    else if (elem.numero < a^.dato.numero) 
+         then InsertarElemento(a^.HI, elem)
+         else InsertarElemento(a^.HD, elem); 
   End;
 
-var unaVenta: venta;  
+var unSocio: socio;  
 Begin
  writeln;
- writeln ('----- Ingreso de ventas y armado de arbol de productos ----->');
+ writeln ('----- Ingreso de socios y armado del arbol ----->');
  writeln;
  a:= nil;
- CargarVenta (unaVenta);
- while (unaVenta.codigoVenta <> 0) do
+ CargarSocio (unSocio);
+ while (unSocio.numero <> 0)do
   begin
-   InsertarElemento (a, unaVenta);
-   CargarVenta (unaVenta);
+   InsertarElemento (a, unSocio);
+   CargarSocio (unSocio);
   end;
  writeln;
- writeln ('-----------------------------------------------');
+ writeln ('//////////////////////////////////////////////////////////');
  writeln;
 end;
 
-procedure ModuloB (a: arbol);
-{ Imprima el contenido del árbol ordenado por código de producto.}
-  procedure ImprimirArbol (a: arbol);
-  begin
-    if (a <> nil)
-    then begin
-          if (a^.HI <> nil) then ImprimirArbol (a^.HI);
-          writeln ('Codigo producto: ', a^.dato.codigo, ' cantidad unidades: ', a^.dato.cantTotalUnidades, ' monto total: ', a^.dato.montoTotal:2:2);
-          if (a^.HD <> nil) then ImprimirArbol (a^.HD);
-         end;
-  end;
-
-begin
-  writeln;
-  writeln ('----- Modulo B ----->');
-  writeln;
-  if ( a = nil) then writeln ('Arbol vacio')
-                else ImprimirArbol (a);
-  writeln;
-  writeln ('-----------------------------------------------');
-  writeln;
-end;
-
-procedure ModuloC (a: arbol);
-{Retornar el menor código de producto.}
-
-  function ObtenerMinimo (a: arbol): integer;
-  begin
-    if (a = nil) 
-    then ObtenerMinimo:= 9999
-    else if (a^.HI = nil) then ObtenerMinimo:= a^.dato.codigo
-                          else ObtenerMinimo:= ObtenerMinimo (a^.HI)
-  end;
-   
-var menorCodigo: integer;
-begin
-  writeln;
-  writeln ('----- Modulo C ----->');
-  writeln;
-  write ('Menor codigo de producto: ');
-  writeln;
-  menorCodigo:= ObtenerMinimo (a);
-  if (menorCodigo = 9999) 
-  then writeln ('Arbol vacio')
-  else begin
-         writeln;
-         writeln ('El codigo menor es ', menorCodigo); 
-         writeln;
-       end;
-  writeln;
-  writeln ('-----------------------------------------------');
-  writeln;
-end;
-
-procedure ModuloD (a: arbol);
-{ Retornar la cantidad de códigos que existen en el árbol que son menores que un valor que se recibe como parámetro }
+procedure InformarSociosOrdenCreciente (a: arbol);
+{ Informar los datos de los socios en orden creciente. }
   
-  function CantidadDeCodigosMenores (a: arbol; cod: integer): integer;
+  procedure InformarDatosSociosOrdenCreciente (a: arbol);
   begin
-    if(a=Nil) then
-		cantidadDeCodigosMenores := -1
-	else begin
-		if(a^.dato.codigoVenta < cod) then
-			cantidadDeCodigosMenores(a^.HI, cod) + cantidadDeCodigos(a^.HD,cod) + 1
-		else
-			cantidadDeCodigosMenores(a^.HI,cod);
-	end
+    if ((a <> nil) and (a^.HI <> nil))
+    then InformarDatosSociosOrdenCreciente (a^.HI);
+    writeln ('Numero: ', a^.dato.numero, ' Nombre: ', a^.dato.nombre, ' Edad: ', a^.dato.edad);
+    if ((a <> nil) and (a^.HD <> nil))
+    then InformarDatosSociosOrdenCreciente (a^.HD);
   end;
-   
-var cantidad, unCodigo: integer;
-begin
-  writeln;
-  writeln ('----- Modulo D ----->');
-  writeln;
-  write ('Ingresar un codigo: ');
-  readln (unCodigo);
-  cantidad:= CantidadDeCodigosMenores (a, unCodigo);
-  writeln;
-  writeln ('La cantidad de codigos menores al codigo ', unCodigo, ' es: ', cantidad);
-  writeln;
-  writeln;
-  writeln ('-----------------------------------------------');
-  writeln;
+
+Begin
+ writeln;
+ writeln ('----- Socios en orden creciente por numero de socio ----->');
+ writeln;
+ InformarDatosSociosOrdenCreciente (a);
+ writeln;
+ writeln ('//////////////////////////////////////////////////////////');
+ writeln;
 end;
 
-procedure ModuloE (a: arbol);
-{ Contenga un módulo que reciba la estructura generada en el punto a y dos códigos de producto y retorne el monto total entre todos los códigos de productos 
-comprendidos entre los dos valores recibidos (sin incluir). }
-  
-  function ObtenerMontoTotalEntreDosCodigos (a: arbol; codigo1, codigo2: integer): real;
-  begin
-    if(a = nil) then
-		ObtenerMontoTotalEntreDosCodigos := 0
-	else begin
-		if((a^.dato.codigo > codigo1) and (a^.dato.codigo < codigo2) then
-			ObtenerMontoTotalEntreDosCodigos := ObtenerMontoTotalEntreDosCodigos(a^.HI, codigo1, codigo2) + ObtenerMontoTotalEntreDosCodigos(a^.HD, codigo1, codigo2) + a^.dato.montoTotal;
-		else if(a^.dato.codigo > codigo1) then
-			ObtenerMontoTotalEntreDosCodigos := ObtenerMontoTotalEntreDosCodigos(a^.HI, codigo1, codigo2)
-		else
-			ObtenerMontoTotalEntreDosCodigos := ObtenerMontoTotalEntreDosCodigos(a^.HD,codigo1, codigo2);
-		
+
+procedure InformarNumeroSocioConMasEdad (a: arbol);
+{ Informar el numero de socio con mayor edad. Debe invocar a un modulo recursivo que retorne dicho valor.  }
+
+	procedure NumeroMasEdad (a: arbol; var maxEdad: integer; var maxNum: integer);
+	begin
+	   if (a <> nil) then
+	   begin
+      if(a^.dato.edad >= maxEdad) then begin
+        maxEdad := a^.dato.edad;
+        maxNum := a^.dato.numero;
+      end;
+		  numeroMasEdad(a^.hi, maxEdad,maxNum);
+		  numeroMasEdad(a^.hd, maxEdad,maxNum);
+	   end; 
 	end;
-  end;
-   
-var codigo1, codigo2: integer;
-    montoTotal: real;
+
+var maxEdad, maxNum: integer;
 begin
   writeln;
-  writeln ('----- Modulo E ----->');
+  writeln ('----- Informar Numero Socio Con Mas Edad ----->');
   writeln;
-  write ('Ingrese primer codigo de producto: ');
-  readln (codigo1);
-  write ('Ingrese segundo codigo de producto (mayor al primer codigo): ');
-  readln (codigo2);
-  writeln;
-  montoTotal:= ObtenerMontoTotalEntreDosCodigos (a, codigo1, codigo2);
-  if (montoTotal = 0) 
-  then writeln ('No hay codigos entre ', codigo1, ' y ', codigo2)
+  maxEdad := -1;
+  NumeroMasEdad (a, maxEdad, maxNum);
+  if (maxEdad = -1) 
+  then writeln ('Arbol sin elementos')
   else begin
          writeln;
-         writeln ('El monto total entre el codigo', codigo1, ' y el codigo : ', codigo2, ' es: ', montoTotal); 
+         writeln ('Numero de socio con mas edad: ', maxNum);
          writeln;
        end;
   writeln;
-  writeln ('-----------------------------------------------');
+  writeln ('//////////////////////////////////////////////////////////');
   writeln;
 end;
 
-var a: arbol; 
+procedure AumentarEdadNumeroImpar (a: arbol);
+{Aumentar en 1 la edad de los socios con edad impar e informar la cantidad de socios que se les aumento la edad.}
+  
+  function AumentarEdad (a: arbol): integer;
+  var resto: integer;
+  begin
+     if (a = nil) 
+     then AumentarEdad:= 0
+     else begin
+            resto:= a^.dato.edad mod 2;
+            if (resto = 1) then a^.dato.edad:= a^.dato.edad + 1;
+            AumentarEdad:= resto + AumentarEdad (a^.HI) + AumentarEdad (a^.HD);
+          end;  
+  end;
+
+begin
+  writeln;
+  writeln ('----- Cantidad de socios con edad aumentada ----->');
+  writeln;
+  writeln ('Cantidad: ', AumentarEdad (a));
+  writeln;
+  writeln;
+  writeln ('//////////////////////////////////////////////////////////');
+  writeln;
+end;
+
+procedure informarSociosDecreciente(a: arbol);
+    procedure informarDatosSociosOrdenDecreciente(a: arbol);
+    begin
+        if(a <> Nil) then begin
+            if(a^.HD <> Nil) then
+                informarDatosSociosOrdenDecreciente(a^.HD);
+            WriteLn('Numero: ', a^.dato.numero, ' Nombre: ',a^.dato.    nombre, ' Edad: ', a^.dato.edad);
+            if(a^.HI <> Nil) then
+                informarDatosSociosOrdenDecreciente(a^.HI);
+        end;
+    end;
+Begin
+ writeln;
+ writeln ('----- Socios en orden decreciente por numero de socio ----->');
+ writeln;
+ InformarDatosSociosOrdenDecreciente(a);
+ writeln;
+ writeln ('//////////////////////////////////////////////////////////');
+ writeln;
+end;
+
+function informarExistenciaNombreSocio(a:arbol;nombre: String) : Boolean;
+begin
+    if(a <> Nil) then begin
+    informarExistenciaNombreSocio := False;
+    if(a^.dato.nombre = nombre) then
+        informarExistenciaNombreSocio := True
+    else if(a^.HI <> Nil) then
+        informarExistenciaNombreSocio := informarExistenciaNombreSocio(a^.HI,nombre)
+    else if(a^.HD <> Nil) then
+        informarExistenciaNombreSocio := informarExistenciaNombreSocio(a^.HD,nombre);
+    end;
+end;
+
+procedure informarCantidadSocios(a:arbol;var cantidadSocios: integer);
+begin
+    if(a <> Nil) then begin
+        cantidadSocios += 1;
+        if(a^.HI <> Nil) then
+            informarCantidadSocios(a^.HI,cantidadSocios);
+        if(a^.HD <> Nil) then
+            informarCantidadSocios(a^.HD,cantidadSocios);
+    end;
+end;
+
+function InformarPromedioDeEdad(a: arbol;cantidadSocios: integer) : real;
+  procedure calcularEdades(a: arbol;var totalEdad: integer);
+  begin
+    if(a <> Nil) then begin
+      totalEdad += a^.dato.edad;
+      if(a^.HI <> Nil) then
+        informarCantidadSocios(a^.HI,totalEdad);
+      if(a^.HD <> Nil) then
+        informarCantidadSocios(a^.HD,totalEdad);
+    end;
+  end;
+var
+  totalEdad: integer;
+begin
+  totalEdad := 0;
+  calcularEdades(a,totalEdad);
+  InformarPromedioDeEdad := totalEdad / cantidadSocios;
+end;
+
+
+var a: arbol; nombre: string; cantidadSocios: integer;
 Begin
   randomize;
-  ModuloA (a);
-  ModuloB (a);
-  ModuloC (a);
-    ModuloD (a);
-    ModuloE (a);
- 
+  GenerarArbol (a);
+  InformarSociosOrdenCreciente (a);
+  informarSociosDecreciente (a); {COMPLETAR}
+  InformarNumeroSocioConMasEdad (a);
+  AumentarEdadNumeroImpar (a);
+  write('Nombre a buscar en el arbol: ');ReadLn(Nombre);
+  WriteLn(InformarExistenciaNombreSocio (a,nombre)); {COMPLETAR}
+  cantidadSocios := 0;
+  InformarCantidadSocios (a,cantidadSocios); {COMPLETAR}
+  writeLn('Hay ', cantidadSocios, ' socios.');
+  writeLn('El promedio de edad es: ',InformarPromedioDeEdad (a,cantidadSocios):0:2); {COMPLETAR}
 End.
-{1. Descargar el programa ImperativoEjercicioClase4.pas. y completar los módulos indicados
-en el código.
-a. Almacenar los productos vendidos en una estructura eficiente para la búsqueda por
-código de producto. De cada producto deben quedar almacenados su código, la
-cantidad total de unidades vendidas y el monto total. De cada venta se cargan código
-de venta, código del producto vendido, cantidad de unidades vendidas y precio
-unitario. El ingreso de las ventas finaliza cuando se lee el código de venta 0.
-b. Imprimir el contenido del árbol ordenado por código de producto.
-c. Retornar el menor código de producto.
-d. Retornar la cantidad de códigos que existen en el árbol que son menores que un valor
-que se recibe como parámetro.
-e. Retornar el monto total entre todos los códigos de productos comprendidos entre dos
-valores recibidos (sin incluir) como parámetros.}
+{2. Descargar el programa ImperativoEjercicioClase3.pas de la clase anterior e incorporar lo
+necesario para:
+i. Informar el número de socio más grande. Debe invocar a un módulo recursivo que
+retorne dicho valor.
+ii. Informar los datos del socio con el número de socio más chico. Debe invocar a un
+módulo recursivo que retorne dicho socio.
+iii. Leer un valor entero e informar si existe o no existe un socio con ese valor. Debe
+invocar a un módulo recursivo que reciba el valor leído y retornar verdadero o falso.
+iv. Leer e informar la cantidad de socios cuyos códigos se encuentran comprendidos
+entre los valores leídos. Debe invocar a un módulo recursivo que reciba los valores
+leídos y retorne la cantidad solicitada.
+}

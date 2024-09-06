@@ -1,0 +1,10 @@
+parte 2.
+ejercicio 1)
+a. DATA = salida (envía el código ASCII a imprimir)
+STROBE = salida (0 ó 1. Determina el pulso para enviar el dato. 1 SÍ; 0 NO
+BUSY = entrada (recibe la entrada de 0 ó 1. 0 está desocupado y manda DATA, 1 está OCUPADO y no manda DATA).
+
+b. Imprime "hoaa". No se imprime "l" por el Busy, está encendido cuando se manda el pulso de Strobe, por lo cual no deja enviar Data.
+
+c. Se imprimiría solo una "a" porque al no ser otro dato diferente, la impresora detecta que ya lo imprimió.
+
