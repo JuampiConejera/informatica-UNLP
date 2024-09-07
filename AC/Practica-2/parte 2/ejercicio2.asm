@@ -7,7 +7,7 @@
         MOV AL, 0FEH;
         OUT CA, AL
         IN AL, PA
-        AND AL, 10000000B;
+        AND AL, 1;
         JNZ OCUPADA
         MOV BX, OFFSET NO;
         MOV AL, 5
