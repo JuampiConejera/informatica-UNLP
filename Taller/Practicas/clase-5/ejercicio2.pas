@@ -107,7 +107,7 @@ begin
 		else if(auto.marca < a^.dato.marca) then
 			agregarArbol2(a^.HI,auto)
 		else	
-			agregarArbol2(a^.HI,auto);
+			agregarArbol2(a^.HD,auto);
 	end;
 end;
 
