@@ -15,14 +15,14 @@ NOTA: Calcular el área con la fórmula Á𝑟𝑒𝑎 = 𝑠(𝑠 − 𝑎)(�
 son los lados y 𝑠 = . La función raíz cuadrada es Math.sqrt(#)*/
 
  //@author Juampi conejera
-public class Ejercicio1a {
+public class Triangulo {
     private double ladoA = 0;
     private double ladoB = 0;
     private double ladoC = 0;
     private String colorRelleno = "";
     private String colorLinea = "";
 
-    public Ejercicio1a(double ladoA, double ladoB, double ladoC, String colorRelleno, String colorLinea){
+    public Triangulo(double ladoA, double ladoB, double ladoC, String colorRelleno, String colorLinea){
         this.ladoA = ladoA;
         this.ladoB = ladoB;
         this.ladoC = ladoC;

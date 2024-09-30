@@ -7,17 +7,17 @@ package tema3;
  *
  * @author vsanz
  */
-public class Libro {
+public class LibroOriginal {
    private String titulo;
-   private Autor primerAutor; 
+   private String primerAutor; 
    private String editorial;
    private int añoEdicion;
    private String ISBN; 
    private double precio; 
      
     
-    public Libro(  String unTitulo,  String unaEditorial, 
-    int unAñoEdicion,  Autor unPrimerAutor, String unISBN, double unPrecio){
+    public LibroOriginal(  String unTitulo,  String unaEditorial, 
+    int unAñoEdicion,  String unPrimerAutor, String unISBN, double unPrecio){
          titulo = unTitulo;
          editorial = unaEditorial; 
          añoEdicion= unAñoEdicion;
@@ -26,7 +26,7 @@ public class Libro {
          precio = unPrecio;
     }
     
-    public Libro(  String unTitulo,  String unaEditorial, Autor unPrimerAutor, String unISBN){
+    public LibroOriginal(  String unTitulo,  String unaEditorial, String unPrimerAutor, String unISBN){
          titulo = unTitulo;
          editorial = unaEditorial; 
          añoEdicion= 2015;
@@ -35,7 +35,7 @@ public class Libro {
          precio = 100;
     }
     
-    public Libro(){
+    public LibroOriginal(){
    
     }
         
@@ -50,7 +50,7 @@ public class Libro {
         return añoEdicion;
     }
   
-    public Autor getPrimerAutor(){
+    public String getPrimerAutor(){
         return primerAutor;
     } 
     public String getISBN(){
@@ -71,7 +71,7 @@ public class Libro {
          añoEdicion = unAño;
     }
    
-    public void setPrimerAutor(Autor unPrimerAutor){
+    public void setPrimerAutor(String unPrimerAutor){
          primerAutor=unPrimerAutor;
     } 
     public void setISBN(String unISBN){
@@ -85,7 +85,7 @@ public class Libro {
    @Override
     public String toString(){
         String aux;
-        aux= titulo + " por " + primerAutor.getNombre() + " - " + añoEdicion + " - " + " ISBN: " + ISBN;
+        aux= titulo + " por " + primerAutor + " - " + añoEdicion + " - " + " ISBN: " + ISBN;
        return ( aux);
     }
         
