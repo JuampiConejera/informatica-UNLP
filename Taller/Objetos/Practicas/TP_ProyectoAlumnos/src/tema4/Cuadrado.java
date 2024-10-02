@@ -20,7 +20,7 @@ public class Cuadrado extends Figura{
     }
 
     public double calcularArea(){
-       return (getLado()* getLado());
+        return (getLado() * getLado());
     }
     
     public double calcularPerimetro(){
@@ -28,8 +28,8 @@ public class Cuadrado extends Figura{
     }
     
     public String toString(){
-       String aux = super.toString() + 
-                    " Lado: " + getLado();
+       String aux = " Lado: " + getLado() + super.toString(); 
+                    
        return aux;
     }
 
