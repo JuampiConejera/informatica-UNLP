@@ -11,7 +11,7 @@ ld $t2, N ($zero)
 
 for:
 dmul $t0, $t0, $t1      ; (F = F * I)
-beq $t1, $t2, fin
+beq $t1, $t2, fin       ; (i = N)
 daddi $t1, $t1, 1       ; (i++)
 j for
 
