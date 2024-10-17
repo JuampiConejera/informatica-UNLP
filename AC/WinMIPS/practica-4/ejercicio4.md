@@ -4,7 +4,7 @@ Sin embargo, al programar resulta más conveniente darles nombres más significa
 La siguiente tabla muestra la convención empleada para nombrar a los 32 registros mencionados:
 Registros       |Nombres        |¿Para que se los utiliza?                  |¿Preservado?
 r0              |$zero          |Siempre tiene el valor 0, no cambia        |
-r1              |$at            |Assembler Temporary Reservado ensamblador  |
+r1              |$at            |Assembler Temporary -Reservado ensamblador |
 r2-r3           |$v0-$v1        |Valores retorno subrutina                  |
 r4-r7           |$a0-$a3        |Argumentos pasados a la subrutina llamada  |
 r8-r15          |$t0-$t7        |Registros temporarios                      |
