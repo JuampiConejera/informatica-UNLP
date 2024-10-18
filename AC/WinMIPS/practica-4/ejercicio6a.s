@@ -1,6 +1,7 @@
 .data
 V: .word 5, 2, 6
 RES: .word 0
+
 .code
 dadd $t0, $zero, $zero      ;pongo en valor 0 $t0
 ld $t9, V($t0)
