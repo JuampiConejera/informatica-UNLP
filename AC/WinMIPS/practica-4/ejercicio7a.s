@@ -10,7 +10,7 @@ daddi $t4, $zero, 2
 
 loop:
 ld $t1, 0 ($t2)
-slt $t8, $t1, $zero             ;t2 < 0
+slt $t8, $t1, $zero             ;t1 < 0
 beqz $t8, es_positivo           ;CONTAR POSITIVOS
 vuelta:                         ;vuelve del es_positivo
 sd $t8, MAX($zero)              ;cargo el numero Maximo
