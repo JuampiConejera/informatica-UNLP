@@ -15,16 +15,16 @@ procesos
     si(HayFlorEnLaEsquina)
       mientras(HayFlorEnLaEsquina)
         tomarFlor
-        flores := flores + 1
-      sino
-        esquinaVacia := esquinaVacia + 1
+        flores:= flores + 1
+    sino
+      esquinaVacia:= esquinaVacia + 1
   fin
   proceso recorrerAvenida(ES flores: numero; ES esquinaVacia: numero)
   comenzar
     repetir 99
-      juntarFlores(flores, esquinaVacia)
+      juntarFlores(flores,esquinaVacia)
       mover
-    juntarFlores(flores, esquinaVacia)
+    juntarFlores(flores,esquinaVacia)
     depositarFlores(flores)
   fin
 areas
@@ -32,14 +32,14 @@ areas
 robots
   robot robot1
   variables
-  flores: numero
-  esquinaVacia: numero
+    flores: numero
+    esquinaVacia: numero
   comenzar
-    flores := 0
-    esquinaVacia := 0
+    flores:= 0
+    esquinaVacia:= 0
     recorrerAvenida(flores,esquinaVacia)
-    Informar('Cantidad de flores juntadas: ', flores)
-    Informar('Cantidad de esquinas vacias: ', esquinaVacia)
+    Informar("Cantidad de flores juntadas ", flores)
+    Informar("Cantidad de esquinas vacias ", esquinaVacia)
   fin
 variables
   R_info: robot1
@@ -47,3 +47,4 @@ comenzar
   AsignarArea(R_info, ciudad)
   Iniciar(R_info, 1,1)
 fin
+
