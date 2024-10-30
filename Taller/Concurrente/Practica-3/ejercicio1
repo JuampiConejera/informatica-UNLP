@@ -1,0 +1,95 @@
+programa ejercicio1
+procesos
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+  fin
+  proceso juntarPapeles(ES papeles: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles := papeles + 1
+  fin
+  proceso juntarElementos(E esFlor: boolean; E posX:numero;E posY: numero; ES cantElementos: numero; E inicioX: numero; E inicioY: numero)
+  comenzar
+    si(esFlor)
+      BloquearEsquina(posX,posY)
+      Pos(posX,posY)
+      juntarFlores(cantElementos)
+      Pos(inicioX,inicioY)
+      LiberarEsquina(posX,posY)
+    sino
+      BloquearEsquina(posX,posY)
+      Pos(posX,posY)
+      juntarPapeles(cantElementos)
+      Pos(inicioX,inicioY)
+      LiberarEsquina(posX,posY)
+  fin
+areas
+  inicioF1: AreaP (6,10,6,10)
+  inicioF2: AreaP (7,10,7,10)
+  areaFloreros: AreaPC (1,1,5,10)
+  inicioP1: AreaP (8,10,8,10)
+  inicioP2: AreaP (9,10,9,10)
+  areaPapeleros: AreaPC (6,1,10,9)
+  areaDeposito: AreaPC (10,10,10,10)
+robots
+  robot robotFlorero
+  variables
+    x, y, inicioX, inicioY cantFlores: numero
+  comenzar
+    inicioX := PosAv
+    inicioY := PosCa
+    cantFlores := 0
+    repetir 5
+      Random(y,1,10)
+      Random(x,1,5)
+      juntarElementos(V,x,y,cantFlores,inicioX, inicioY)
+    repetir cantFlores
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarFlor
+      Pos(inicioX,inicioY)
+      LiberarEsquina(10,10)
+  fin
+  robot robotPapelero
+  variables
+    x, y, inicioX, inicioY cantPapeles: numero
+  comenzar
+    inicioX := PosAv
+    inicioY := PosCa
+    cantPapeles := 0
+    repetir 3
+      Random(x,6,10)
+      Random(y,1,9)
+      juntarElementos(F,x,y,cantPapeles,inicioX,inicioY)
+    repetir cantPapeles
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarPapel
+      Pos(inicioX,inicioY)
+      LiberarEsquina(10,10)
+  fin
+variables
+  f1, f2: robotFlorero
+  p1, p2: robotPapelero
+comenzar
+  AsignarArea(f1,inicioF1)
+  AsignarArea(f1,areaFloreros)
+  AsignarArea(f1,areaDeposito)
+  AsignarArea(f2,inicioF2)
+  AsignarArea(f2,areaFloreros)
+  AsignarArea(f2,areaDeposito)
+  AsignarArea(p1,inicioP1)
+  AsignarArea(p1,areaPapeleros)
+  AsignarArea(p1,areaDeposito)  
+  AsignarArea(p2,inicioP2)
+  AsignarArea(p2,areaPapeleros)
+  AsignarArea(p2,areaDeposito)
+  Iniciar(f1,6,10)
+  Iniciar(f2,7,10)
+  Iniciar(p1,8,10)
+  Iniciar(p2,9,10)
+fin
