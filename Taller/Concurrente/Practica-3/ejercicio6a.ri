@@ -1,0 +1,43 @@
+programa ejercicio6a
+procesos
+  proceso areaSinChoques(E x: numero; E y: numero; E juntaFlores: boolean)
+  comenzar
+    si(juntaFlores
+  fin
+areas
+  areaRobot: AreaPC (2,2,16,16)
+  callePrimero: AreaPC (1,20,100,20)
+  calleSegundo: AreaPC (1,21,100,21)
+  calleTercero: AreaPC (1,22,100,22)
+  esquinaFiscalizador: AreaP(1,1,1,1)
+robots
+  robot robot1
+  comenzar
+    areaSinChoques
+  fin
+  robot robotJefe
+  comenzar
+    derecha
+  fin
+variables
+  r1,r2,r3: robotRecolector
+  rj: robotJefe
+comenzar
+  AsignarArea(r1,areaRobot)
+  AsignarArea(r2,areaRobot)
+  AsignarArea(r3,areaRobot)
+  AsignarArea(r1,callePrimero)
+  AsignarArea(r2,callePrimero)
+  AsignarArea(r3,callePrimero)
+  AsignarArea(r1,calleSegundo)
+  AsignarArea(r2,calleSegundo)
+  AsignarArea(r3,calleSegundo)
+  AsignarArea(r1,calleTercero)
+  AsignarArea(r2,calleTercero)
+  AsignarArea(r3,calleTercero)
+  AsignarArea(rj,esquinaFiscalizador)
+  Iniciar(r1, 2,2)
+  Iniciar(r2,5,5)
+  Iniciar(r3,9,9)
+  Iniciar(rj,1,1)
+fin

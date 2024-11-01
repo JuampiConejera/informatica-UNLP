@@ -1,0 +1,103 @@
+programa ejemplo
+procesos
+  proceso buscarMaximo(E ID: numero; ES IDMax: numero; E calle: numero; ES maximo:numero)
+  comenzar
+    si(calle > maximo)
+      calle := maximo
+      IDMax := ID
+  fin
+  proceso asignarID
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+  fin
+  proceso buscarFlor(ES hayFlor: boolean)
+  variables
+    posX, posY: numero
+  comenzar
+    posX := PosAv
+    posY := PosCa
+    BloquearEsquina(11,11)
+    Pos(11,11)
+    si(HayFlorEnLaEsquina)
+      tomarFlor
+      Pos(posX,posY+1)
+    sino
+      hayFlor := F
+      Pos(posX,posY)
+    LiberarEsquina(11,11)
+  fin
+  proceso procesarCarrera
+  variables
+    posX,posY: numero
+    hayFlor: boolean
+  comenzar
+    hayFlor := V
+    mientras(hayFlor)
+      si(PosAv < 100)
+        buscarFlor(hayFlor)
+      sino
+        hayFlor := F
+  fin
+areas
+  avenida4: AreaP (4,1,4,100)
+  avenida6: AreaP (6,1,6,100)
+  avenida8: AreaP (8,1,8,100)
+  avenida10: AreaP (10,1,10,100)
+  esquina11: AreaPC (11,11,11,11)
+  esquinaJefe: AreaP (1,1,1,1)
+robots
+  robot robotJefe
+  variables
+    ID,IDMax,maximo,calle: numero
+  comenzar
+    maximo := -1
+    asignarID
+    repetir 4
+      RecibirMensaje(ID,*)
+      si(ID=1)
+        RecibirMensaje(calle,r1)
+      sino
+        si(ID=2)
+          RecibirMensaje(calle,r2)
+        sino
+          si(ID=3)
+            RecibirMensaje(calle,r3)
+          sino
+            RecibirMensaje(calle,r4)
+      si(calle > maximo)
+        calle := maximo
+        IDMax := ID
+    Informar(IDMax)
+  fin
+  robot robotCorredor
+  variables
+    ID,calleMaxima: numero
+  comenzar
+    RecibirMensaje(ID,rj)
+    procesarCarrera
+    calleMaxima := PosCa
+    EnviarMensaje(ID,rj)
+    EnviarMensaje(calleMaxima,rj)
+  fin
+variables
+  r1,r2,r3,r4: robotCorredor
+  rj: robotJefe
+comenzar
+  AsignarArea(r1,avenida4)
+  AsignarArea(r2,avenida6)
+  AsignarArea(r3,avenida8)
+  AsignarArea(r4,avenida10)
+  AsignarArea(r1,esquina11)
+  AsignarArea(r2,esquina11)
+  AsignarArea(r3,esquina11)
+  AsignarArea(r4,esquina11)
+  AsignarArea(rj,esquinaJefe)
+  Iniciar(rj,1,1)
+  Iniciar(r1, 4,1)
+  Iniciar(r2, 6,1)
+  Iniciar(r3, 8,1)
+  Iniciar(r4,10,1)
+fin
