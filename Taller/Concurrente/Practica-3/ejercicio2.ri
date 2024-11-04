@@ -1,0 +1,122 @@
+programa ejercicio2
+procesos
+  proceso atras
+  comenzar
+    repetir 2
+      derecha
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      juntarFlor
+      flores := flores + 1
+  fin
+  proceso juntarPapeles(ES papeles: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      juntarPapel
+      papeles := papeles + 1
+  fin
+  proceso recorrer(E cantMovimientos:numero;E esFlor:boolean;ES cantElem: numero)
+  comenzar
+    repetir cantMovimientos
+      mover
+    si esFlor
+      juntarFlores(cantElem)
+    sino
+      juntarPapeles(cantElem)
+  fin
+areas
+  ciudad: AreaC (1,1,100,100)
+robots
+  robot robotFlores
+  variables
+    cantMovimientos,flores,ID: numero
+  comenzar
+    ID := 1
+    flores := 0
+    cantMovimientos := 5
+    repetir 4
+      recorrer(cantMovimientos,V,flores)
+      derecha
+      recorrer(cantMovimientos,V,flores)
+      izquierda
+      cantMovimientos := cantMovimientos - 1
+    mover
+    juntarFlores(flores)
+    derecha
+    BloquearEsquina(PosAv+1,PosCa)
+    mover
+    juntarFlores(flores)
+    atras
+    mover
+    LiberarEsquina(PosAv+1,PosCa)
+    cantMovimientos  := 2
+    repetir 4
+      recorrer(cantMovimientos,V,flores)
+      derecha
+      recorrer(cantMovimientos,V,flores)
+      izquierda
+      cantMovimientos := cantMovimientos + 1
+    Informar(flores)
+    EnviarMensaje(ID,rj)
+  fin
+  robot robotPapeles
+  variables
+    cantMovimientos,papeles,ID: numero
+  comenzar
+    ID := 2
+    papeles := 0
+    cantMovimientos := 5
+    repetir 4
+      recorrer(cantMovimientos,F,papeles)
+      izquierda
+      recorrer(cantMovimientos,F,papeles)
+      derecha
+      cantMovimientos := cantMovimientos - 1
+    mover
+    juntarPapeles(papeles)
+    izquierda
+    BloquearEsquina(PosAv-1,PosCa)
+    mover
+    juntarPapeles(papeles)
+    atras
+    mover
+    LiberarEsquina(PosAv-1,PosCa)
+    cantMovimientos := 2
+    repetir 4
+      recorrer(cantMovimientos,F,papeles)
+      izquierda
+      recorrer(cantMovimientos,F,papeles)
+      derecha
+      cantMovimientos := cantMovimientos + 1
+    Informar(papeles)
+    EnviarMensaje(ID,rj)
+  fin
+  robot robotJefe
+  variables
+    IDGanador: numero
+  comenzar
+    RecibirMensaje(IDGanador,*)
+    si(IDGanador = 1)
+      Informar("gano el bot",IDGanador)
+    sino
+      Informar("gano el bot", IDGanador)
+  fin
+variables
+  r1: robotFlores
+  r2: robotPapeles
+  rj: robotJefe
+comenzar
+  AsignarArea(r1,ciudad)
+  AsignarArea(r2,ciudad)
+  AsignarArea(rj,ciudad)
+  Iniciar(r1, 1,1)
+  Iniciar(r2,31,1)
+  Iniciar(rj,15,1)
+fin
