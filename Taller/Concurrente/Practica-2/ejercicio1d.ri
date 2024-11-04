@@ -1,0 +1,101 @@
+{Bienvenidos al entorno CMRE.
+Lo siguiente es un cÃ³digo de ejemplo que implementa un
+proceso que recibe un nÃºmero de avenida como parÃ¡metro,
+se posiciona en esa avenida y la recorre.}
+
+programa ejemplo
+procesos
+  proceso juntarFlores(ES f: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f := f + 1
+  fin
+  proceso recorrer(ES f: numero)
+  comenzar
+    repetir 9
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+  fin
+  proceso asignarID
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    EnviarMensaje(5,r5)
+    EnviarMensaje(6,r6)
+  fin
+  proceso actualizarMax(ES fMax:numero;E f:numero;ES IDMax:numero;E ID:numero)
+  comenzar
+    si f > fMax
+      fMax := f
+      IDMax := ID
+  fin
+areas
+  areaRobot1: AreaP (1,1,1,10)
+  areaRobot2: AreaP (2,11,2,20)
+  areaRobot3: AreaP (3,21,3,30)
+  areaRobot4: AreaP (4,31,4,40)
+  areaRobot5: AreaP (5,41,5,50)
+  areaRobot6: AreaP (6,51,6,60)
+  areaRobotRf: AreaP (2,1,2,1)
+robots
+  robot robotos
+  variables
+    f,ID: numero
+  comenzar
+    f := 0
+    RecibirMensaje(ID,rf)
+    recorrer(f)
+    EnviarMensaje(ID,rf)
+    EnviarMensaje(f,rf)
+  fin
+  robot robotFiscalizador
+  variables
+    f, fMax, ID, IDMax: numero
+  comenzar
+    fMax := -1
+    IDMax := 0
+    asignarID
+    repetir 6
+      RecibirMensaje(ID,*)
+      si(ID = 1)
+        RecibirMensaje(f,r1)
+      sino
+        si(ID = 2)
+          RecibirMensaje(f,r2)
+        sino
+          si(ID = 3)
+            RecibirMensaje(f,r3)
+          sino
+            si(ID = 4)
+              RecibirMensaje(f,r4)
+            sino
+              si(ID = 5)
+                RecibirMensaje(f,r5)
+              sino
+                RecibirMensaje(f,r6)
+      actualizarMax(fMax,f,IDMax,ID)
+    Informar(fMax,IDMax)
+  fin
+variables
+  r1,r2,r3,r4,r5,r6: robotos
+  rf: robotFiscalizador
+comenzar
+  AsignarArea(r1, areaRobot1)
+  AsignarArea(r2, areaRobot2)
+  AsignarArea(r3, areaRobot3)
+  AsignarArea(r4, areaRobot4)
+  AsignarArea(r5, areaRobot5)
+  AsignarArea(r6, areaRobot6)
+  AsignarArea(rf, areaRobotRf)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 2, 11)
+  Iniciar(r3, 3, 21)
+  Iniciar(r4, 4, 31)
+  Iniciar(r5, 5, 41)
+  Iniciar(r6, 6, 51)
+  Iniciar(rf, 2, 1)
+fin

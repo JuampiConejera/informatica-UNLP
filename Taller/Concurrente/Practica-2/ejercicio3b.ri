@@ -1,0 +1,119 @@
+3. Realice un programa con 2 equipos:
+- El equipo A, compuesto por los robots A1 y A2, debe juntar papeles de las
+primeras 20 esquinas de la calle 1
+- El equipo B, compuesto por los robots B1 y B2, debe juntar flores de las primeras
+20 esquinas de la calle 5
+Los robots A1 y B1 deberán realizar las 10 primeras esquinas de su recorrido, y al
+finalizar avisarán a los robots A2 y B2 respectivamente para que continúen con las
+siguientes 10 esquinas. El segundo robot de cada equipo debe informar la cantidad
+de elementos recogidos en las 20 esquinas.
+Inicialice los 4 robots en las esquinas que considere más apropiadas según el
+trayecto que le corresponde realizar a cada uno.
+Modifique el programa anterior para que cada equipo repita el recorrido con las
+siguientes 20 esquinas de sus correspondientes calles.
+
+programa ejercicio3
+procesos
+  proceso juntarPapeles(ES p: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      p := p + 1
+  fin
+  proceso recorridoEquipo1(ES p: numero)
+  comenzar
+    derecha
+    repetir 9
+      juntarPapeles(p)
+      mover
+    juntarPapeles(p)
+  fin
+  proceso juntarFlores(ES f: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f := f + 1
+  fin
+  proceso recorridoEquipo2(ES f: numero)
+  comenzar
+    derecha
+    repetir 9
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+  fin
+areas
+  areaA1: AreaP (1,1,10,1)
+  areaA11: AreaP (21,1,30,1)
+  areaA2: AreaP (11,1,20,1)
+  areaA21: AreaP (31,1,40,1)
+  areaB1: AreaP (1,5,10,5)
+  areaB11: AreaP (21,5,30,5)
+  areaB2: AreaP (11,5,20,5)
+  areaB21: AreaP (31,5,40,5)
+robots
+  robot rA1
+  variables
+    p: numero
+  comenzar
+    p := 0
+    recorridoEquipo1(p)
+    EnviarMensaje(p,rA2)
+    Pos(21,1)
+    RecibirMensaje(p,rA2)
+    recorridoEquipo1(p)
+    EnviarMensaje(p,rA2)
+  fin
+  robot rA2
+  variables
+    p: numero
+  comenzar
+    RecibirMensaje(p,rA1)
+    recorridoEquipo1(p)
+    EnviarMensaje(p,rA1)
+    Pos(31,1)
+    RecibirMensaje(p,rA1)
+    recorridoEquipo1(p)
+    Informar(p)
+  fin
+  robot rB1
+  variables
+    f: numero
+  comenzar
+    f := 0
+    recorridoEquipo2(f)
+    EnviarMensaje(f,rB2)
+    Pos(21,5)
+    RecibirMensaje(f,rB2)
+  fin
+  robot rB2
+  variables
+    f: numero
+  comenzar
+    RecibirMensaje(f,rB1)
+    recorridoEquipo2(f)
+    EnviarMensaje(f,rB1)
+    Pos(31,5)
+    RecibirMensaje(f,rB1)
+    recorridoEquipo2(f)
+    Informar(f)
+  fin
+variables
+  a1: rA1
+  a2: rA2
+  b1: rB1
+  b2: rB2
+comenzar  
+  AsignarArea(a1, areaA1)
+  AsignarArea(a1, areaA11)
+  AsignarArea(a2, areaA2)
+  AsignarArea(a2, areaA21)
+  AsignarArea(b1, areaB1)
+  AsignarArea(b1, areaB11)
+  AsignarArea(b2, areaB2)
+  AsignarArea(b2, areaB21)
+  Iniciar(a1, 1,1)
+  Iniciar(a2, 11,1)
+  Iniciar(b1, 1,5)
+  Iniciar(b2, 11,5)
+fin

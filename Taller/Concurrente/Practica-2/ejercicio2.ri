@@ -1,0 +1,75 @@
+programa ejercicio2
+procesos
+  proceso izq
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso limpiar(ES f: numero; ES p: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      p := p + 1
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f := f + 1
+  fin
+  proceso limpiarEscalon(ES cantM: numero; E alto: numero)
+  variables
+    f,p : numero
+  comenzar
+    f := 0
+    p := 0
+    repetir alto
+      limpiar(f,p)
+      mover
+    limpiar(f,p)
+    derecha
+    mover
+    limpiar(f,p)
+    si f > p
+      cantM := cantM + 1
+  fin
+  proceso escalera(ES cantM: numero)
+  variables
+    alto: numero
+  comenzar
+    Random(alto,1,5)
+    repetir 4
+      limpiarEscalon(cantM,alto)
+      izq
+  fin
+areas
+  ciudad: AreaC (1,1,100,100)
+robots
+  robot robot1
+  variables
+    cantM: numero
+  comenzar
+    cantM := 0
+    escalera(cantM)
+    EnviarMensaje(cantM,rj)
+  fin
+  robot robotJefe
+  variables
+    cant,total: numero
+  comenzar
+    total := 0
+    repetir 3
+      RecibirMensaje(cant,*)
+      total := total + cant
+    Informar(total)
+  fin
+variables
+  r1,r2,r3: robot1
+  rj: robotJefe
+comenzar
+  AsignarArea(rj, ciudad)
+  AsignarArea(r1, ciudad)
+  AsignarArea(r2, ciudad)
+  AsignarArea(r3, ciudad)
+  Iniciar(r1, 2,1)
+  Iniciar(r2, 7,1)
+  Iniciar(r3, 12,1)
+  Iniciar(rj, 1, 1)
+fin
