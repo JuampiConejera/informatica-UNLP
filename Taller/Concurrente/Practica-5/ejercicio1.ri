@@ -1,0 +1,108 @@
+programa ejercicio1
+procesos
+  proceso limpiarAvenidaPapeles(ES papeles: numero)
+  comenzar
+    repetir 99
+      mientras(HayPapelEnLaEsquina)
+        tomarPapel
+        papeles := papeles + 1
+      mover
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles := papeles + 1
+  fin
+  proceso limpiarAvenidaFlores(ES flores: numero)
+  comenzar
+    repetir 99
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+        flores := flores + 1
+      mover
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+  fin
+  proceso asignarID
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,a1)
+    EnviarMensaje(4,a2)
+  fin
+areas
+  avenida2: AreaP (2,1,2,100)
+  avenida3: AreaP (3,1,3,100)
+  avenida98: AreaP (98,1,98,100)
+  avenida99: AreaP (99,1,99,100)
+  esquinaFiscalizador: AreaP (1,1,1,1)
+robots
+  robot equipoR
+  variables
+    id: numero
+    flores: numero
+  comenzar
+    RecibirMensaje(id,rf)
+    limpiarAvenidaFlores(flores)
+    EnviarMensaje(id,rf)
+    EnviarMensaje(flores,rf)
+  fin
+  robot equipoA
+  variables
+    id: numero
+    papeles: numero
+  comenzar
+    RecibirMensaje(id,rf)
+    limpiarAvenidaPapeles(papeles)
+    EnviarMensaje(id,rf)
+    EnviarMensaje(papeles,rf)
+  fin
+  robot robotFiscalizador
+  variables
+    id: numero
+    idMax, maximo: numero
+    papelesTotal,floresTotal,elementos: numero
+  comenzar
+    asignarID
+    papelesTotal := 0
+    floresTotal := 0
+    repetir 4
+      RecibirMensaje(id,*)
+      si (id = 1) | (id = 2)
+        si (id = 1)
+          RecibirMensaje(elementos,r1)
+          floresTotal := floresTotal + elementos
+        sino
+          RecibirMensaje(elementos,r2)
+          floresTotal := floresTotal + elementos
+      sino
+        si (id = 3)
+          RecibirMensaje(elementos,a1)
+          papelesTotal := papelesTotal + elementos
+        sino
+          RecibirMensaje(elementos,a2)
+          papelesTotal := papelesTotal + elementos
+    si (floresTotal = papelesTotal)
+      Informar('Empate con',floresTotal)
+    sino
+      si (floresTotal > papelesTotal)
+        Informar('ganan Flores con',floresTotal)
+      sino
+        Informar('ganan Papeles con',papelesTotal)
+      
+  fin
+variables
+  r1,r2: equipoR
+  a1,a2: equipoA
+  rf: robotFiscalizador
+comenzar
+  AsignarArea(r1,avenida2)
+  AsignarArea(r2,avenida3)
+  AsignarArea(a1,avenida98)
+  AsignarArea(a2,avenida99)
+  AsignarArea(rf,esquinaFiscalizador)
+  Iniciar(r1,2,1)
+  Iniciar(r2,3,1)
+  Iniciar(a1,98,1)
+  Iniciar(a2,99,1)
+  Iniciar(rf,1,1)
+fin
