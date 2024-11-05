@@ -1,0 +1,243 @@
+programa ejercicio6a
+procesos
+  proceso atras
+  comenzar
+    repetir 2
+      derecha
+  fin
+  proceso mandarCalle(E ID: numero;E ordenLlegada: numero)
+  comenzar
+    si(ID = 1)
+      EnviarMensaje(ordenLlegada,r1)
+    sino
+      si(ID = 2)
+        EnviarMensaje(ordenLlegada,r2)
+      sino
+        EnviarMensaje(ordenLlegada,r3)
+  fin
+  proceso asignarID
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso juntarPapeles
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso juntarFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+areas
+  areaRobot: AreaPC (2,2,16,16)
+  callePrimero: AreaPC (1,20,100,20)
+  calleSegundo: AreaPC (1,21,100,21)
+  calleTercero: AreaPC (1,22,100,22)
+  esquinaFiscalizador: AreaP(1,1,1,1)
+robots
+  robot robot1
+  variables
+    ID,calle:numero
+  comenzar
+    RecibirMensaje(ID,rj)
+    repetir 5
+      juntarFlores
+      mover
+    derecha
+    repetir 2
+      mover
+    BloquearEsquina(5,7)
+    mover
+    juntarFlores
+    mover
+    LiberarEsquina(5,7)
+    juntarFlores
+    mover
+    derecha
+    juntarFlores
+    mover
+    BloquearEsquina(7,5)
+    juntarFlores
+    mover
+    LiberarEsquina(7,5)
+    juntarFlores
+    repetir 3
+      mover
+      juntarFlores
+    derecha
+    repetir 4
+      juntarFlores
+      mover
+    EnviarMensaje(ID,rj)
+    atras
+    RecibirMensaje(calle,rj)
+    Pos(1,calle)
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+      mover
+  fin
+  robot robot2
+  variables
+    ID,calle: numero
+  comenzar
+    RecibirMensaje(ID,rj)
+    juntarFlores
+    juntarPapeles
+    mover
+    juntarFlores
+    juntarPapeles
+    BloquearEsquina(5,7)
+    mover
+    juntarFlores
+    juntarPapeles
+    mover
+    LiberarEsquina(5,7)
+    repetir 7
+      juntarFlores
+      juntarPapeles
+      mover
+    juntarFlores
+    juntarPapeles
+    derecha
+    repetir 3
+      mover
+      juntarFlores
+      juntarPapeles
+    BloquearEsquina(9,14)
+    mover
+    juntarFlores
+    juntarPapeles
+    mover
+    LiberarEsquina(9,14)
+    juntarFlores
+    juntarPapeles
+    repetir 4
+      mover
+      juntarFlores
+      juntarPapeles
+    derecha
+    repetir 4
+      mover
+      juntarFlores
+      juntarPapeles
+    BloquearEsquina(14,9)
+    mover
+    juntarFlores
+    juntarPapeles
+    mover
+    LiberarEsquina(14,9)
+    juntarFlores
+    juntarPapeles
+    repetir 3
+      mover
+      juntarPapeles
+      juntarFlores
+    derecha
+    repetir 6
+      mover
+      juntarFlores
+      juntarPapeles 
+    BloquearEsquina(7,5)
+    mover
+    juntarFlores
+    juntarPapeles
+    mover
+    LiberarEsquina(7,5)
+    juntarFlores
+    juntarPapeles
+    EnviarMensaje(ID,rj)
+    atras
+    RecibirMensaje(calle,rj)
+    Pos(1,calle)
+    mientras(HayFlorEnLaBolsa) & (HayPapelEnLaBolsa) & (PosAv < 100)
+      depositarFlor
+      depositarPapel
+      mover
+    si(HayFlorEnLaBolsa) & (HayPapelEnLaBolsa)
+      depositarFlor
+      depositarPapel
+  fin
+  robot robot3
+  variables
+    ID, calle: numero
+  comenzar
+    RecibirMensaje(ID,rj)
+    repetir 4
+      juntarPapeles
+      mover
+    BloquearEsquina(9,14)
+    mover
+    juntarPapeles
+    mover
+    LiberarEsquina(9,14)
+    juntarPapeles
+    derecha
+    repetir 6
+      mover
+      juntarPapeles
+    derecha
+    repetir 6
+      mover
+      juntarPapeles
+    derecha
+    BloquearEsquina(14,9)
+    mover
+    juntarPapeles
+    mover
+    LiberarEsquina(14,9)
+    juntarPapeles
+    repetir 3
+      mover
+      juntarPapeles
+    EnviarMensaje(ID,rj)
+    atras
+    RecibirMensaje(calle,rj)
+    Pos(1,calle)
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+      mover
+  fin
+  robot robotJefe
+  variables
+    ID1,ID2,ID3: numero
+  comenzar
+    asignarID
+    RecibirMensaje(ID1,*)
+    RecibirMensaje(ID2,*)
+    RecibirMensaje(ID3,*)
+    mandarCalle(ID1,20)
+    mandarCalle(ID2,21)
+    mandarCalle(ID3,22)
+  fin
+variables
+  r1: robot1
+  r2: robot2
+  r3: robot3
+  rj: robotJefe
+comenzar
+  AsignarArea(r1,areaRobot)
+  AsignarArea(r2,areaRobot)
+  AsignarArea(r3,areaRobot)
+  AsignarArea(r1,callePrimero)
+  AsignarArea(r2,callePrimero)
+  AsignarArea(r3,callePrimero)
+  AsignarArea(r1,calleSegundo)
+  AsignarArea(r2,calleSegundo)
+  AsignarArea(r3,calleSegundo)
+  AsignarArea(r1,calleTercero)
+  AsignarArea(r2,calleTercero)
+  AsignarArea(r3,calleTercero)
+  AsignarArea(rj,esquinaFiscalizador)
+  Iniciar(r1, 2,2)
+  Iniciar(r2,5,5)
+  Iniciar(r3,9,9)
+  Iniciar(rj,1,1)
+fin
