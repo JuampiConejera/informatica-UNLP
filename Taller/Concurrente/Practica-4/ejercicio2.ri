@@ -1,0 +1,83 @@
+programa ejercicio2
+
+  
+areas
+  avenida5: AreaP (5,1,5,100)
+  avenida10: AreaP (10,1,10,100)
+  areaConsumidor1: AreaP (11,1,11,1)
+  areaConsumidor2: AreaP (12,1,12,1)
+  esquina50: AreaC (50,50,50,50)
+robots
+  robot robotProductor
+  variables
+    cantPapeles: numero
+    x,y : numero
+    finalizar: boolean
+  comenzar
+    cantPapeles := 0
+    finalizar := F
+    x := PosAv
+    mientras(~finalizar)
+      si (HayPapelEnLaEsquina)
+        tomarPapel
+        cantPapeles := cantPapeles + 1
+        si (cantPapeles = 5)
+          cantPapeles := 0
+          y := PosCa
+          BloquearEsquina(50,50)
+          Pos(50,50)
+          repetir 5
+            depositarPapel
+          Pos(x,y)
+          LiberarEsquina(50,50)
+      sino
+        si (PosCa = 100)
+          finalizar := V
+        sino
+          mover  
+  fin
+  robot robotConsumidor
+  variables
+    x,y: numero
+    intentos: numero
+    papeles,papelesNecesarios: numero
+  comenzar
+    x := PosAv
+    y := PosCa
+    Random(papelesNecesarios,2,5)
+    mientras(intentos < 8)
+      papeles := 0
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      mientras (HayPapelEnLaEsquina) & (papeles < papelesNecesarios)
+        tomarPapel
+        papeles := papeles + 1
+      si (papeles < papelesNecesarios)
+        repetir papeles
+          depositarPapel
+      Pos(x,y)
+      LiberarEsquina(50,50)
+      si (papeles = papelesNecesarios)
+        repetir papeles
+          depositarPapel
+        intentos := 0
+      sino
+        intentos := intentos + 1
+  fin
+variables
+  rp1,rp2: robotProductor
+  rc1, rc2: robotConsumidor
+comenzar
+  AsignarArea(rp1,esquina50)
+  AsignarArea(rp1,avenida5)
+  AsignarArea(rp2,avenida10)
+  AsignarArea(rp2,esquina50)
+  AsignarArea(rc1,areaConsumidor1)
+  AsignarArea(rc1,esquina50)
+  AsignarArea(rc2,areaConsumidor2)
+  AsignarArea(rc2,esquina50)
+  Iniciar(rp1,5,1)
+  Iniciar(rp2,10,1)
+  Iniciar(rc1,11,1)
+  Iniciar(rc2,12,1)
+fin

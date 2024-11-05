@@ -1,0 +1,114 @@
+programa ejercicio4
+procesos
+  proceso realizarTarea1(E av: numero; E ca: numero)
+  variables
+    x,y: numero
+  comenzar
+    x := PosAv
+    y := PosCa
+    BloquearEsquina(av,ca)
+    Pos(av,ca)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+    Pos(x,y)
+    LiberarEsquina(av,ca)
+  fin
+  proceso realizarTarea2(E av: numero; E ca: numero)
+  variables
+    x,y: numero
+  comenzar
+    x := PosAv
+    y := PosCa
+    BloquearEsquina(av,ca)
+    Pos(av,ca)
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+    Pos(x,y)
+    LiberarEsquina(av,ca)
+  fin
+  proceso realizarTarea3(E av: numero;E ca: numero)
+  variables
+    x,y: numero
+  comenzar
+    x := PosAv
+    y := PosCa
+    BloquearEsquina(av,ca)
+    Pos(av,ca)
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+    Pos(x,y)
+    LiberarEsquina(av,ca)
+  fin
+  proceso realizarTarea4(ES ok: boolean)
+  comenzar
+    ok := F
+  fin
+areas
+  esquinaEsclavo1: AreaP (2,1,2,1)
+  esquinaEsclavo2: AreaP (3,1,3,1)
+  esquinaJefe: AreaP (1,1,1,1)
+  ciudad: AreaPC (2,2,100,100)
+robots
+  robot robotJefe
+  variables
+    robotAleatorio,tareaAleatoria: numero
+    ok: boolean
+    av,ca: numero
+  comenzar
+    ok := V
+    repetir 10
+      Random(robotAleatorio,1,2)
+      Random(tareaAleatoria,1,3)
+      Random(av,2,100)
+      Random(ca,2,100)
+      si(robotAleatorio = 1)
+        EnviarMensaje(tareaAleatoria,r1)
+        EnviarMensaje(av,r1)
+        EnviarMensaje(ca,r1)
+      sino
+        EnviarMensaje(tareaAleatoria,r2)
+        EnviarMensaje(av,r2)
+        EnviarMensaje(ca,r2)
+      RecibirMensaje(ok,*)
+    EnviarMensaje(4,r1)
+    EnviarMensaje(4,r2)
+  fin
+  robot robotEsclavo
+  variables
+    ok: boolean
+    numeroTarea: numero
+    av,ca: numero
+  comenzar
+    ok := V
+    RecibirMensaje(numeroTarea,rj)
+    mientras (numeroTarea <> 4)
+      RecibirMensaje(av,rj)
+      RecibirMensaje(ca,rj)
+      si(numeroTarea = 1)
+        realizarTarea1(av,ca)
+      sino
+        si(numeroTarea = 2)
+          realizarTarea2(av,ca)
+        sino
+          si(numeroTarea = 3)
+            realizarTarea3(av,ca)
+          sino
+            realizarTarea4(ok)
+      EnviarMensaje(ok,rj)
+      RecibirMensaje(numeroTarea,rj)
+  fin
+variables
+  rj: robotJefe
+  r1,r2: robotEsclavo
+comenzar
+  AsignarArea(rj, esquinaJefe)
+  AsignarArea(r1, esquinaEsclavo1)
+  AsignarArea(r1,ciudad)
+  AsignarArea(r2,esquinaEsclavo2)
+  AsignarArea(r2,ciudad)
+  Iniciar(rj, 1,1)
+  Iniciar(r1,2,1)
+  Iniciar(r2,3,1)
+fin
