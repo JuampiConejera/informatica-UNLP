@@ -1,0 +1,81 @@
+programa ejercicio3
+
+areas
+  calle3: AreaP (1,3,100,3)
+  calle4: AreaP (1,4,100,4)
+  esquinaCosechador: AreaP (1,5,1,5)
+  esquina10: AreaC (10,10,10,10)
+robots
+  robot robotRecolector
+  variables
+    flores: numero
+    x,y: numero
+    ok: boolean
+  comenzar
+    derecha
+    ok := V
+    flores := 0
+    y := PosCa
+    repetir 99
+      x := PosAv
+      mientras(HayFlorEnLaEsquina)
+        si(flores < 10)
+          tomarFlor
+          flores := flores + 1
+        sino
+          BloquearEsquina(10,10)
+          Pos(10,10)
+          repetir 10
+            depositarFlor
+          Pos(x,y)
+          LiberarEsquina(10,10)
+          flores := 0
+          EnviarMensaje(ok,rc)
+      mover
+    mientras(HayFlorEnLaEsquina)
+      si(flores < 10)
+        tomarFlor
+        flores := flores + 1
+      sino
+        BloquearEsquina(10,10)
+        Pos(10,10)
+        repetir 10
+          depositarFlor
+        Pos(x,y)
+        LiberarEsquina(10,10)
+        flores := 0
+        EnviarMensaje(ok,rc)
+    ok := F
+    EnviarMensaje(ok,rc)
+  fin
+  robot robotCosechador
+  variables
+    ok: boolean
+    cantFlores: numero
+  comenzar
+    cantFlores := 0
+    RecibirMensaje(ok,*)
+    mientras(ok)
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+        cantFlores := cantFlores + 1
+      Pos(1,5)
+      LiberarEsquina(10,10)
+      RecibirMensaje(ok,*)
+  fin
+variables
+  r1,r2: robotRecolector
+  rc: robotCosechador
+comenzar
+  AsignarArea(r1, calle3)
+  AsignarArea(r2,calle4)
+  AsignarArea(rc,esquinaCosechador)
+  AsignarArea(r1,esquina10)
+  AsignarArea(r2,esquina10)
+  AsignarArea(rc,esquina10)
+  Iniciar(r1,1,3)
+  Iniciar(r2,1,4)
+  Iniciar(rc,1,5)
+fin

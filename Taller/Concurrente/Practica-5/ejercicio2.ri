@@ -1,0 +1,109 @@
+programa ejercicio2
+procesos
+  proceso sincronizar(E id:numero)
+  variables
+    ok: boolean
+  comenzar
+    ok := V
+    si(id = 1)
+      EnviarMensaje(ok,r2)
+      EnviarMensaje(ok,r3)
+    sino
+      si(id = 2)
+        EnviarMensaje(ok,r1)
+        EnviarMensaje(ok,r3)
+      sino
+        EnviarMensaje(ok,r1)
+        EnviarMensaje(ok,r2)
+    RecibirMensaje(ok,*)
+    RecibirMensaje(ok,*)
+  fin
+  proceso asignarID
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+  fin
+  proceso depositarFlores
+  variables
+    x,y: numero
+  comenzar
+    x := PosAv
+    y := PosCa
+    BloquearEsquina(50,50)
+    Pos(50,50)
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+    Pos(x,y)
+    LiberarEsquina(50,50)
+  fin
+  proceso limpiarEsquina
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso realizarTarea
+  comenzar
+    repetir 9
+      limpiarEsquina
+      mover
+    limpiarEsquina
+  fin
+areas
+  calle1: AreaP (1,1,100,1)
+  calle2: AreaP (1,2,100,2)
+  calle3: AreaP (1,3,100,3)
+  esquinaFiscalizador: AreaP (1,4,1,4)
+  esquina50: AreaC (50,50,50,50)
+robots
+  robot robotRecolector
+  variables
+    id: numero
+    ok: boolean
+  comenzar
+    ok := V
+    RecibirMensaje(id,rf)
+    derecha
+    repetir 10
+      realizarTarea
+      si(HayFlorEnLaBolsa)
+        depositarFlores
+      sincronizar(id)
+    realizarTarea
+    si(HayFlorEnLaBolsa)
+      depositarFlores
+    EnviarMensaje(ok,rf)
+  fin
+  robot robotFiscalizador
+  variables
+    ok: boolean
+  comenzar
+    ok := V
+    asignarID
+    RecibirMensaje(ok,*)
+    RecibirMensaje(ok,*)
+    RecibirMensaje(ok,*)
+    Pos(50,50)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+    Pos(1,4)
+  fin
+variables
+  r1,r2,r3: robotRecolector
+  rf: robotFiscalizador
+comenzar
+  AsignarArea(r1, calle1)
+  AsignarArea(r2, calle2)
+  AsignarArea(r3, calle3)
+  AsignarArea(rf,esquinaFiscalizador)
+  AsignarArea(r1,esquina50)
+  AsignarArea(r2,esquina50)
+  AsignarArea(r3,esquina50)
+  AsignarArea(rf,esquina50)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 1,2)
+  Iniciar(r3, 1,3)
+  Iniciar(rf, 1,4)
+fin
