@@ -1,0 +1,93 @@
+programa parcialTurnoE
+procesos
+  proceso recorrerLado(ES flores: numero; E lado: numero)
+  comenzar
+    repetir lado
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+        flores := flores + 1
+      mover
+  fin
+  proceso recorrerCuadrado(ES flores: numero; E lado: numero)
+  comenzar
+    repetir 4
+      recorrerLado(flores,lado)
+      derecha
+  fin
+  proceso calcularMaximo(E id:numero;ES idMax:numero;ES max:numero;E esquinas:numero)
+  comenzar
+    si(esquinas > max)
+      max := esquinas
+      idMax := id
+  fin
+areas
+  areaR1: AreaP (1,1,5,16)
+  areaR2: AreaP (7,1,11,16)
+  areaR3: AreaP (14,1,18,16)
+  esquina50: AreaPC (50,50,50,50)
+  esquinaCoordinador: AreaP (51,51,51,51)
+robots
+  robot robotJuntador
+  variables
+    id: numero
+    lado,esquinas: numero
+    flores: numero
+    inicioX,inicioY: numero
+  comenzar
+    RecibirMensaje(id,rc)
+    esquinas := 0
+    repetir 3
+      flores := 0
+      Random(lado,1,4)
+      esquinas := esquinas + 4*lado
+      recorrerCuadrado(flores,lado)
+      Pos(PosAv,PosCa+lado+1)
+      inicioX := PosAv
+      inicioY := PosCa
+      repetir flores
+        BloquearEsquina(50,50)
+        Pos(50,50)
+        depositarFlor
+        Pos(inicioX,inicioY)
+        LiberarEsquina(50,50)
+    EnviarMensaje(id,rc)
+    EnviarMensaje(esquinas,rc)
+  fin
+  robot robotCoordinador
+  variables
+    id,idMax: numero
+    max, esquinas: numero
+  comenzar
+    EnviarMensaje(1,r1){Asignar ID} {INICIO}
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3) {FIN}
+    repetir 3
+      RecibirMensaje(id,*)
+      si(id = 1)
+        RecibirMensaje(esquinas,r1)
+        calcularMaximo(id,idMax,max,esquinas)
+      sino
+        si(id = 2)
+          RecibirMensaje(esquinas,r2)
+          calcularMaximo(id,idMax,max,esquinas)
+        sino
+          RecibirMensaje(esquinas,r3)
+          calcularMaximo(id,idMax,max,esquinas)
+    Informar(idMax)
+  fin
+variables
+  r1,r2,r3: robotJuntador
+  rc: robotCoordinador
+comenzar
+  AsignarArea(r1, areaR1)
+  AsignarArea(r2, areaR2)
+  AsignarArea(r3, areaR3)
+  AsignarArea(r1, esquina50)
+  AsignarArea(r2, esquina50)
+  AsignarArea(r3, esquina50)
+  AsignarArea(rc, esquinaCoordinador)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 7,1)
+  Iniciar(r3,14,1)
+  Iniciar(rc,51,51)
+fin

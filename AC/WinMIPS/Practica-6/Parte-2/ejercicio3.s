@@ -8,5 +8,6 @@ ld $t1, A($0)
 loop: daddi $t2, $t2, -1
 dsll $t1, $t1, 1
 bnez $t2, loop
+nop
 sd $t1, C($0)
 halt
