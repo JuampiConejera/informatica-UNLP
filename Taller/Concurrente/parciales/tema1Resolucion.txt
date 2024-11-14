@@ -1,0 +1,81 @@
+programa parcialTema1
+
+areas
+  areaBuscar: AreaC (10,10,13,13)
+  esquina2: AreaP (2,2,2,2)
+  esquina3: AreaP (3,3,3,3)
+  esquina1: AreaP (1,1,1,1)
+  esquina4: AreaP (4,4,4,4)
+robots
+  robot robotBuscador
+  variables
+    id: numero
+    flor: boolean
+    x,y,randomX,randomY: numero
+  comenzar
+    x := PosAv
+    y := PosCa
+    flor := F
+    RecibirMensaje(id,re)
+    mientras ~flor
+      Random(randomX,10,13)
+      Random(randomY,10,13)
+      BloquearEsquina(randomX,randomY)
+      Pos(randomX,randomY)
+      si(HayFlorEnLaEsquina)
+        flor := V
+      Pos(x,y)
+      LiberarEsquina(randomX,randomY)
+      si(id = 1)
+        EnviarMensaje(flor,r2)
+        EnviarMensaje(flor,r3)
+      sino
+        si(id = 2)
+          EnviarMensaje(flor,r1)
+          EnviarMensaje(flor,r3)
+        sino
+          EnviarMensaje(flor,r1)
+          EnviarMensaje(flor,r2)
+          {asignar ID INICIO}
+      RecibirMensaje(flor,*)
+      RecibirMensaje(flor,*)
+    si(flor)
+      EnviarMensaje(id,re)
+      EnviarMensaje(flor,re)
+  fin
+  robot robotEscondedor
+  variables
+    randomX,randomY: numero
+    id: numero
+  comenzar
+    Random(randomX,10,13)
+    Random(randomY,10,13)
+    Pos(randomX,randomY)
+    depositarFlor
+    Pos(4,4)
+    {envio de mensajes para comenzar}
+        {asignar ID INICIO}
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    {fin}
+    RecibirMensaje(id,*)
+    Informar(id)
+  fin
+variables
+  r1,r2,r3: robotBuscador
+  re: robotEscondedor
+comenzar
+  AsignarArea(r1, esquina1)
+  AsignarArea(r2, esquina2)
+  AsignarArea(r3, esquina3)
+  AsignarArea(r1, areaBuscar)
+  AsignarArea(r2, areaBuscar)
+  AsignarArea(r3, areaBuscar)
+  AsignarArea(re, areaBuscar)
+  AsignarArea(re, esquina4)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 2,2)
+  Iniciar(r3, 3,3)
+  Iniciar(re, 4,4)
+fin
